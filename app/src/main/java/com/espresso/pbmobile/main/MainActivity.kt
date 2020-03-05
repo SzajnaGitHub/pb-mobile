@@ -1,5 +1,7 @@
 package com.espresso.pbmobile.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -17,4 +19,7 @@ class MainActivity : AppCompatActivity() {
         binding.textView.text = "Nice app"
     }
 
+    companion object {
+        fun createIntent(context: Context) = Intent(context, MainActivity::class.java)
+    }
 }
