@@ -5,6 +5,7 @@ buildscript {
     ext {
         min_sdk = 21
         target_sdk = 29
+        compile_sdk = 29
     }
     repositories {
         google()

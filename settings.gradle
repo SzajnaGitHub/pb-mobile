@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':app-base'
 rootProject.name='PB Mobile'

@@ -9,10 +9,7 @@ import com.espresso.pbmobile.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
-        DataBindingUtil.setContentView<ActivityMainBinding>(
-            this,
-            R.layout.activity_main
-        )
+        DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
