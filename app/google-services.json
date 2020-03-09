@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "167562737524",
+    "firebase_url": "https://pb-mobile-d74ba.firebaseio.com",
+    "project_id": "pb-mobile-d74ba",
+    "storage_bucket": "pb-mobile-d74ba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:167562737524:android:121e90c7471f9050b89e21",
+        "android_client_info": {
+          "package_name": "com.espresso.pbmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "167562737524-mjm35uivhgtl5iae2i8uion0la8ptthp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.espresso.pbmobile",
+            "certificate_hash": "d6da6b52487954c2f4eebe323f604e2188f2af0d"
+          }
+        },
+        {
+          "client_id": "167562737524-0kt3a1malpulpjlil9ntbosoodivnkpj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFI4U5pqcNkTlQX_NVjHczFTkL85oFUKQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "167562737524-0kt3a1malpulpjlil9ntbosoodivnkpj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

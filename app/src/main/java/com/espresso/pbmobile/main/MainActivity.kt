@@ -25,11 +25,11 @@ class MainActivity : AppCompatActivity() {
     private fun setupBottomNav() {
         binding.bottomNav.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.whatever1 -> handleFragmentChange(RefuelingFragment.createInstance(), RefuelingFragment::class.java.name)
-                R.id.whatever2 -> handleFragmentChange(CarWashFragment.createInstance(), CarWashFragment::class.java.name)
-                R.id.whatever3 -> handleFragmentChange(DashboardFragment.createInstance(), DashboardFragment::class.java.name)
-                R.id.whatever4 -> handleFragmentChange(RewardsFragment.createInstance(), RewardsFragment::class.java.name)
-                R.id.whatever5 -> handleFragmentChange(InfoFragment.createInstance(), InfoFragment::class.java.name)
+                R.id.refuel -> handleFragmentChange(RefuelingFragment.createInstance(), RefuelingFragment::class.java.name)
+                R.id.car_wash -> handleFragmentChange(CarWashFragment.createInstance(), CarWashFragment::class.java.name)
+                R.id.dashboard -> handleFragmentChange(DashboardFragment.createInstance(), DashboardFragment::class.java.name)
+                R.id.rewards -> handleFragmentChange(RewardsFragment.createInstance(), RewardsFragment::class.java.name)
+                R.id.info -> handleFragmentChange(InfoFragment.createInstance(), InfoFragment::class.java.name)
                 else -> throw IllegalArgumentException(ILLEGAL_BOTTOM_ARGUMENT_EXCEPTION_TEXT)
             }
         }

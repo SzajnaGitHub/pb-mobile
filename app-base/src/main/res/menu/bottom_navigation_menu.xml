@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/whatever1"
+        android:id="@+id/refuel"
         android:icon="@drawable/ic_info_outline_black_24dp"
-        android:title="OPTION 1" />
+        android:title="@string/bottom_nav_refuel_title" />
     <item
-        android:id="@+id/whatever2"
+        android:id="@+id/car_wash"
         android:icon="@drawable/ic_info_outline_black_24dp"
-        android:title="OPTION 2" />
-
+        android:title="@string/bottom_nav_car_wash_title" />
     <item
-        android:id="@+id/whatever3"
+        android:id="@+id/dashboard"
         android:icon="@drawable/ic_info_outline_black_24dp"
-        android:title="OPTION 3" />
+        android:title="@string/bottom_nav_dash_title" />
     <item
-        android:id="@+id/whatever4"
+        android:id="@+id/rewards"
         android:icon="@drawable/ic_info_outline_black_24dp"
-        android:title="OPTION 4" />
+        android:title="@string/bottom_nav_rewards_title" />
     <item
-        android:id="@+id/whatever5"
+        android:id="@+id/info"
         android:icon="@drawable/ic_info_outline_black_24dp"
-        android:title="OPTION 5" />
-
+        android:title="@string/bottom_nav_info_title" />
 </menu>

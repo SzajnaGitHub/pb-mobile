@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">PB Mobile</string>
+    <string name="bottom_nav_refuel_title">Tankuj</string>
+    <string name="bottom_nav_car_wash_title">Myjnia</string>
+    <string name="bottom_nav_dash_title">Panel</string>
+    <string name="bottom_nav_rewards_title">Nagrody</string>
+    <string name="bottom_nav_info_title">Info</string>
+</resources>
