@@ -3,13 +3,12 @@ package com.espresso.pbmobile.splash
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.espresso.pbmobile.R
-import com.espresso.pbmobile.main.MainActivity
+import com.espresso.pbmobile.auth.AuthActivity
 import io.reactivex.Completable
 import io.reactivex.disposables.CompositeDisposable
 import java.util.concurrent.TimeUnit
 
 class SplashActivity : AppCompatActivity() {
-
     private val disposables = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
 
         Completable.timer(500L, TimeUnit.MILLISECONDS)
             .subscribe {
-                MainActivity.createIntent(this)
+                startActivity(AuthActivity.createIntent(this))
             }.let(disposables::add)
     }
 

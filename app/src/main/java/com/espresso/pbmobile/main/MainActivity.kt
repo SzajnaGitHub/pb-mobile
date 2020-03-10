@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.espresso.data.RetrofitClientInstance
 import com.espresso.pbmobile.R
 import com.espresso.pbmobile.databinding.ActivityMainBinding
 import com.espresso.pbmobile.main.carwash.CarWashFragment
@@ -19,6 +20,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        RetrofitClientInstance()
+        handleFragmentChange(DashboardFragment.createInstance(), DashboardFragment::class.java.name)
         setupBottomNav()
     }
 
