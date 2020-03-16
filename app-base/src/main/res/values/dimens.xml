@@ -3,4 +3,6 @@
     <dimen name="bottom_navigation_height">60dp</dimen>
     <dimen name="bottom_shadow_height">20dp</dimen>
     <dimen name="bottom_shadow_margin_bottom">50dp</dimen>
+    <dimen name="margin_small">5dp</dimen>
+    <dimen name="margin_medium">5dp</dimen>
 </resources>

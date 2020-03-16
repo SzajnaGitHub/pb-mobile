@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         RetrofitClientInstance()
         handleFragmentChange(DashboardFragment.createInstance(), DashboardFragment::class.java.name)
+        binding.bottomNav.selectedItemId = R.id.dashboard
         setupBottomNav()
     }
 
@@ -39,8 +40,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleFragmentChange(fragment: Fragment, tag: String): Boolean {
-        supportFragmentManager.beginTransaction()
-            .replace(binding.fragmentContainer.id, fragment, tag).commit()
+        supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, fragment, tag).commit()
         return true
     }
 

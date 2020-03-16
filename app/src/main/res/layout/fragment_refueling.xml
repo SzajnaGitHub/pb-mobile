@@ -1,14 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".main.refueling.RefuelingFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data></data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="REFUELING FRAGMENT" />
+        tools:context=".main.refueling.RefuelingFragment">
 
-</FrameLayout>
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_dark_blue_rounded"
+            app:layout_constraintBottom_toBottomOf="@id/price_value_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/refuel_recycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:paddingBottom="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintStart_toStartOf="@+id/view"
+            app:layout_constraintTop_toBottomOf="@+id/refueling_type_header" />
+
+        <TextView
+            android:id="@+id/refueling_type_header"
+            style="@style/Text.Title.White"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Wybierz typ"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintStart_toStartOf="@+id/view"
+            app:layout_constraintTop_toTopOf="@+id/view" />
+
+        <TextView
+            android:id="@+id/price_header_text"
+            style="@style/Text.Title.White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cena za litr:"
+            app:layout_constraintBaseline_toBaselineOf="@+id/price_value_text"
+            app:layout_constraintEnd_toStartOf="@+id/price_value_text"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/view" />
+
+        <TextView
+            android:id="@+id/price_value_text"
+            style="@style/Text.Title.White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:text="5 PLN"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintStart_toEndOf="@+id/price_header_text"
+            app:layout_constraintTop_toBottomOf="@+id/refuel_recycler" />
+
+        <ImageView
+            android:id="@+id/car_image"
+            android:layout_width="120dp"
+            android:layout_height="130dp"
+            android:layout_marginEnd="48dp"
+            android:src="@drawable/ic_car"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tank_image" />
+
+        <TextView
+            android:id="@+id/refuel_percentage"
+            style="@style/Text.H2.White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/car_image"
+            app:layout_constraintEnd_toEndOf="@+id/car_image"
+            app:layout_constraintStart_toStartOf="@+id/car_image"
+            app:layout_constraintTop_toTopOf="@+id/car_image"
+            app:layout_constraintVertical_bias="0.750" />
+
+        <ImageView
+            android:id="@+id/tank_image"
+            android:layout_width="100dp"
+            android:layout_height="170dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_nav_refueling"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <View
+            android:id="@+id/refuel_ball"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/anim_refuel_ball"
+            app:layout_constraintEnd_toEndOf="@+id/tank_image"
+            app:layout_constraintTop_toTopOf="@+id/tank_image" />
+
+        <Button
+            android:id="@+id/refuel_button"
+            style="@style/Text.Title.White"
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:background="@drawable/btn_refuel"
+            android:text="Tankuj"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tank_image" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

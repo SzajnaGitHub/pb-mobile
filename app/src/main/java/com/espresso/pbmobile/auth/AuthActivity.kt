@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.espresso.pbmobile.R
+import com.espresso.pbmobile.main.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -20,10 +21,11 @@ class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
-        googleSignInClient = GoogleSignIn.getClient(this, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
+        googleSignInClient = GoogleSignIn.getClient(
+            this, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
         )
         signIn()
     }
@@ -39,7 +41,8 @@ class AuthActivity : AppCompatActivity() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 task.getResult(ApiException::class.java)?.let { firebaseAuthWithGoogle(it) }
-            } catch (e: ApiException) { }
+            } catch (e: ApiException) {
+            }
         }
     }
 
@@ -47,11 +50,16 @@ class AuthActivity : AppCompatActivity() {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
-                println("TEKST ${auth.currentUser?.uid}")
-                println("TEKST ${auth.currentUser?.email}")
-                println("TEKST ${auth.currentUser?.displayName}")
+                //println("TEKST ${auth.currentUser?.uid}")
+                // println("TEKST ${auth.currentUser?.email}")
+                //println("TEKST ${auth.currentUser?.displayName}")
             }
+            goToNextScreen()
         }
+    }
+
+    private fun goToNextScreen() {
+        startActivity(MainActivity.createIntent(this))
     }
 
     companion object {
