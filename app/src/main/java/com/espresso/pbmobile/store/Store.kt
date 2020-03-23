@@ -1,4 +1,4 @@
-package store
+package com.espresso.pbmobile.store
 
 import android.content.Context
 import android.content.SharedPreferences

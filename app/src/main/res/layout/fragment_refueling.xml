@@ -5,28 +5,29 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="model"
+            type="com.espresso.pbmobile.main.refueling.RefuelFragmentViewModel" />
 
         <variable
             name="detailsModel"
             type="com.espresso.pbmobile.main.refueling.RefuelItemDetailsModel" />
 
-        <variable
-            name="model"
-            type="com.espresso.pbmobile.main.refueling.RefuelItemModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         tools:context=".main.refueling.RefuelingFragment">
 
         <include
-            android:id="@+id/include3"
+            android:id="@+id/distributor_view"
             layout="@layout/view_refuel_info"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,61 +36,36 @@
 
         <ImageView
             android:id="@+id/car_image"
-            android:layout_width="175dp"
-            android:layout_height="168dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="36dp"
-            android:src="@drawable/ic_car"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/pay_button"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/view_refuel_background"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@id/refuel_recycler"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include3" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/refuel_recycler"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:paddingBottom="16dp"
-            app:layout_constraintEnd_toEndOf="@+id/view"
-            app:layout_constraintStart_toStartOf="@+id/view"
-            app:layout_constraintTop_toBottomOf="@+id/refueling_type_header" />
+            android:layout_marginBottom="44dp"
+            android:src="@drawable/r_car"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/pay_button"
+            app:layout_constraintHorizontal_bias="0.534"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/refuel_gun_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@{model.refuelImageResolver(context)}"
+            app:layout_constraintBottom_toBottomOf="@+id/car_image"
+            app:layout_constraintEnd_toStartOf="@+id/car_image"
+            app:layout_constraintHorizontal_bias="0.85"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/refueling_type_header"
-            style="@style/Text.Title.White"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Wybierz typ"
-            app:layout_constraintEnd_toEndOf="@+id/view"
-            app:layout_constraintStart_toStartOf="@+id/view"
-            app:layout_constraintTop_toTopOf="@+id/view" />
-        <TextView
             android:id="@+id/refuel_percentage"
-            style="@style/Text.H2.White"
+            style="@style/Text.H1.White"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/car_image"
             app:layout_constraintEnd_toEndOf="@+id/car_image"
             app:layout_constraintStart_toStartOf="@+id/car_image"
             app:layout_constraintTop_toTopOf="@+id/car_image"
-            app:layout_constraintVertical_bias="0.750" />
+            app:layout_constraintVertical_bias="0.60" />
 
         <Button
             android:id="@+id/pay_button"
@@ -114,6 +90,18 @@
             app:layout_constraintBottom_toBottomOf="@id/car_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pay_button" />
+
+        <ImageView
+            android:id="@+id/history_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:src="@drawable/ic_history"
+            app:layout_constraintBottom_toTopOf="@id/pay_button"
+            app:layout_constraintEnd_toEndOf="@+id/pay_button"
+            app:layout_constraintStart_toStartOf="@+id/pay_button"
+            app:layout_constraintTop_toBottomOf="@+id/distributor_view"
+            android:focusable="true" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

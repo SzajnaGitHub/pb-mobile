@@ -10,9 +10,17 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.espresso.pbmobile.AnimationListener
 import com.espresso.pbmobile.R
 import com.espresso.pbmobile.databinding.FragmentRefuelingBinding
+import com.espresso.pbmobile.history.HistoryActivity
+import com.espresso.pbmobile.history.HistoryActivityViewModel
+import com.espresso.pbmobile.history.RefuelHistoryItemModel
+import com.espresso.pbmobile.main.refueling.RefuelFragmentViewModel.Companion.REFUEL_MAX_VALUE
+import com.espresso.pbmobile.main.refueling.RefuelItemModel.Companion.ITEM_REFUEL_95
+import com.espresso.pbmobile.main.refueling.RefuelItemModel.Companion.ITEM_REFUEL_98
+import com.espresso.pbmobile.main.refueling.RefuelItemModel.Companion.ITEM_REFUEL_LPG
+import com.espresso.pbmobile.main.refueling.RefuelItemModel.Companion.ITEM_REFUEL_ON
+import com.espresso.pbmobile.utlis.AnimationListener
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import java.math.BigDecimal
@@ -28,10 +36,9 @@ class RefuelingFragment : Fragment() {
     private val fuelPercentageSubject = BehaviorSubject.create<Int>()
     private val initialRefuelValue = Random.nextInt(0, 50)
 
-    private enum class FuelingState { INACTION, FUELING, FULL_TANK }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentRefuelingBinding.inflate(inflater, container, false)
+        setupViewModel()
         subscribeToRefuelSubject()
         setupBindings()
         setupRecycler()
@@ -44,25 +51,19 @@ class RefuelingFragment : Fragment() {
         binding.detailsModel = model
     }
 
-    private fun setupRecycler() {
+    private fun setupViewModel() {
         itemList = listOf(
-            RefuelItemModel(false, "95", "item_refuel_95", 4.66, ::handleItemClick),
-            RefuelItemModel(false, "98", "item_refuel_98", 4.91, ::handleItemClick),
-            RefuelItemModel(false, "ON", "item_refuel_ON", 4.77, ::handleItemClick),
-            RefuelItemModel(false, "LPG", "item_refuel_LPG", 2.01, ::handleItemClick)
+            RefuelItemModel(false, "95", ITEM_REFUEL_95, 4.66, ::handleItemClick),
+            RefuelItemModel(false, "98", ITEM_REFUEL_98, 4.91, ::handleItemClick),
+            RefuelItemModel(false, "ON", ITEM_REFUEL_ON, 4.77, ::handleItemClick),
+            RefuelItemModel(false, "LPG", ITEM_REFUEL_LPG, 2.01, ::handleItemClick)
         )
 
-        binding.refuelRecycler.apply {
-            layoutManager = GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false)
-            itemList?.let { adapter = RefuelRecyclerAdapter(it) }
-            addItemDecoration(object : RecyclerView.ItemDecoration() {
-                override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-                    super.getItemOffsets(outRect, view, parent, state)
-                    val marginSmall = resources.getDimension(R.dimen.margin_small).roundToInt()
-                    outRect.set(marginSmall, marginSmall, marginSmall, marginSmall)
-                }
-            })
-        }
+        binding.distributorView.items = itemList
+        binding.model = RefuelFragmentViewModel(
+            state = state,
+            initialRefuelValue = initialRefuelValue
+        )
     }
 
     private fun subscribeToRefuelSubject() {
@@ -87,12 +88,19 @@ class RefuelingFragment : Fragment() {
 
     private fun handleItemClick(model: RefuelItemModel) {
         binding.detailsModel = binding.detailsModel?.copy(pricePerUnit = model.pricePerUnit)
-
-        itemList?.map {
-            it.copy(isClicked = it.id == model.id)
-        }?.let {
-            binding.refuelRecycler.adapter = RefuelRecyclerAdapter(it)
+        updateViewModel {
+            copy(
+                detailsModel = RefuelItemDetailsModel(pricePerUnit = model.pricePerUnit),
+                activeItem = model
+            )
         }
+        itemList?.map { it.copy(isClicked = it.id == model.id) }?.let { items ->
+            (binding.distributorView.refuelRecycler.adapter as RefuelRecyclerAdapter).updateItems(items)
+        }
+    }
+
+    private fun updateViewModel(model: RefuelFragmentViewModel.() -> RefuelFragmentViewModel) {
+        binding.model?.let(model).let(binding::setModel)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -101,6 +109,8 @@ class RefuelingFragment : Fragment() {
             when (state) {
                 FuelingState.INACTION -> {
                     binding.refuelButton.text = "Stop"
+                    binding.historyButton.visibility = View.GONE
+                    binding.payButton.isEnabled = false
                     state = FuelingState.FUELING
                     fuelPercentageSubject.value?.let { if (it < REFUEL_MAX_VALUE) refuelAnimation() }
                 }
@@ -108,12 +118,28 @@ class RefuelingFragment : Fragment() {
                     binding.refuelButton.text = "Tankuj"
                     state = FuelingState.INACTION
                     binding.carImage.clearAnimation()
+                    binding.historyButton.visibility = View.VISIBLE
+                    binding.payButton.isEnabled = true
                 }
                 FuelingState.FULL_TANK -> {
                 }
             }
         }
         binding.payButton.setOnClickListener {}
+        binding.historyButton.setOnClickListener {
+            startActivity(
+                HistoryActivity.createIntent(
+                    requireContext(), HistoryActivityViewModel(
+                        items = listOf(
+                            RefuelHistoryItemModel("a", "b", "c", "d"),
+                            RefuelHistoryItemModel("a", "b", "c", "d"),
+                            RefuelHistoryItemModel("a", "b", "c", "d")
+                        ),
+                        type = HistoryActivity.TYPE_REFUEL
+                    )
+                )
+            )
+        }
     }
 
     private fun refuelAnimation() {
@@ -134,13 +160,27 @@ class RefuelingFragment : Fragment() {
         }
     }
 
+    private fun setupRecycler() {
+        binding.distributorView.refuelRecycler.apply {
+            layoutManager = GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false)
+            itemList?.let { adapter = RefuelRecyclerAdapter(it).apply { setHasStableIds(true) } }
+            addItemDecoration(object : RecyclerView.ItemDecoration() {
+                override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                    super.getItemOffsets(outRect, view, parent, state)
+                    val marginSmall = resources.getDimension(R.dimen.margin_small).roundToInt()
+                    val marginMedium = resources.getDimension(R.dimen.margin_medium).roundToInt()
+                    outRect.set(marginMedium, marginSmall, marginMedium, marginSmall)
+                }
+            })
+        }
+    }
+
     override fun onDestroy() {
         disposables.clear()
         super.onDestroy()
     }
 
     companion object {
-        private const val REFUEL_MAX_VALUE = 100
         fun createInstance() = RefuelingFragment()
     }
 }
