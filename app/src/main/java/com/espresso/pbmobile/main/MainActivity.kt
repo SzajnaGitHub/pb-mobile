@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.espresso.data.RetrofitClientInstance
+import com.espresso.data.models.profile.UserProfile
 import com.espresso.pbmobile.R
 import com.espresso.pbmobile.databinding.ActivityMainBinding
 import com.espresso.pbmobile.main.carwash.CarWashFragment
@@ -14,27 +14,37 @@ import com.espresso.pbmobile.main.dashboard.DashboardFragment
 import com.espresso.pbmobile.main.info.InfoFragment
 import com.espresso.pbmobile.main.refueling.RefuelingFragment
 import com.espresso.pbmobile.main.rewards.RewardsFragment
+import com.espresso.pbmobile.store.Store
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), DashboardFragment.Delegate {
     private val binding by lazy(LazyThreadSafetyMode.NONE) { DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main) }
+    private lateinit var store: Store
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        RetrofitClientInstance()
+        store = Store(this)
         handleFragmentChange(DashboardFragment.createInstance(), DashboardFragment::class.java.name)
-        binding.bottomNav.selectedItemId = R.id.dashboard
         setupBottomNav()
     }
 
     private fun setupBottomNav() {
-        binding.bottomNav.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.refuel -> handleFragmentChange(RefuelingFragment.createInstance(), RefuelingFragment::class.java.name)
-                R.id.car_wash -> handleFragmentChange(CarWashFragment.createInstance(), CarWashFragment::class.java.name)
-                R.id.dashboard -> handleFragmentChange(DashboardFragment.createInstance(), DashboardFragment::class.java.name)
-                R.id.rewards -> handleFragmentChange(RewardsFragment.createInstance(), RewardsFragment::class.java.name)
-                R.id.info -> handleFragmentChange(InfoFragment.createInstance(), InfoFragment::class.java.name)
-                else -> throw IllegalArgumentException(ILLEGAL_BOTTOM_ARGUMENT_EXCEPTION_TEXT)
+        val isRegistered = store.userType != UserProfile.TYPE_UNREGISTERED
+        binding.bottomNav.apply {
+            if (isRegistered) {
+                inflateMenu(R.menu.bottom_navigation_menu)
+            } else {
+                inflateMenu(R.menu.botom_navigation_menu_for_guests)
+            }
+            selectedItemId = R.id.dashboard
+            setOnNavigationItemSelectedListener {
+                when (it.itemId) {
+                    R.id.refuel -> handleFragmentChange(RefuelingFragment.createInstance(), RefuelingFragment::class.java.name)
+                    R.id.car_wash -> if(isRegistered) handleFragmentChange(CarWashFragment.createInstance(), CarWashFragment::class.java.name) else false
+                    R.id.dashboard -> handleFragmentChange(DashboardFragment.createInstance(), DashboardFragment::class.java.name)
+                    R.id.rewards -> if(isRegistered) handleFragmentChange(RewardsFragment.createInstance(), RewardsFragment::class.java.name) else false
+                    R.id.info -> handleFragmentChange(InfoFragment.createInstance(), InfoFragment::class.java.name)
+                    else -> throw IllegalArgumentException(ILLEGAL_BOTTOM_ARGUMENT_EXCEPTION_TEXT)
+                }
             }
         }
     }
@@ -42,6 +52,10 @@ class MainActivity : AppCompatActivity() {
     private fun handleFragmentChange(fragment: Fragment, tag: String): Boolean {
         supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, fragment, tag).commit()
         return true
+    }
+
+    override fun openRefuelingFragment() {
+        binding.bottomNav.selectedItemId = R.id.refuel
     }
 
     companion object {

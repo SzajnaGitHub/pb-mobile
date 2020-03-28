@@ -22,7 +22,6 @@ class RewardsFragment : Fragment() {
     private fun setupRecycler() {
         binding.rewardsRecycler.apply {
             layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
-
         }
     }
 

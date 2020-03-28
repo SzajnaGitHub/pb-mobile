@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.espresso.data.models.profile.UserProfile
 import com.espresso.pbmobile.R
 import com.espresso.pbmobile.databinding.FragmentRefuelingBinding
 import com.espresso.pbmobile.history.HistoryActivity
@@ -20,6 +21,7 @@ import com.espresso.pbmobile.main.refueling.RefuelItemModel.Companion.ITEM_REFUE
 import com.espresso.pbmobile.main.refueling.RefuelItemModel.Companion.ITEM_REFUEL_98
 import com.espresso.pbmobile.main.refueling.RefuelItemModel.Companion.ITEM_REFUEL_LPG
 import com.espresso.pbmobile.main.refueling.RefuelItemModel.Companion.ITEM_REFUEL_ON
+import com.espresso.pbmobile.store.Store
 import com.espresso.pbmobile.utlis.AnimationListener
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
@@ -30,25 +32,24 @@ import kotlin.random.Random
 
 class RefuelingFragment : Fragment() {
     private lateinit var binding: FragmentRefuelingBinding
+    private lateinit var store: Store
+
     private val disposables = CompositeDisposable()
     private var itemList: List<RefuelItemModel>? = null
     private var state = FuelingState.INACTION
     private val fuelPercentageSubject = BehaviorSubject.create<Int>()
+    private val stateSubject = BehaviorSubject.createDefault(FuelingState.INACTION)
     private val initialRefuelValue = Random.nextInt(0, 50)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentRefuelingBinding.inflate(inflater, container, false)
+        store = Store(requireContext())
         setupViewModel()
-        subscribeToRefuelSubject()
+        subscribeToSubjects()
         setupBindings()
         setupRecycler()
-        setupDetailsModel()
         fuelPercentageSubject.onNext(initialRefuelValue)
         return binding.root
-    }
-
-    private fun setupDetailsModel(model: RefuelItemDetailsModel = RefuelItemDetailsModel()) {
-        binding.detailsModel = model
     }
 
     private fun setupViewModel() {
@@ -58,21 +59,26 @@ class RefuelingFragment : Fragment() {
             RefuelItemModel(false, "ON", ITEM_REFUEL_ON, 4.77, ::handleItemClick),
             RefuelItemModel(false, "LPG", ITEM_REFUEL_LPG, 2.01, ::handleItemClick)
         )
-
         binding.distributorView.items = itemList
         binding.model = RefuelFragmentViewModel(
             state = state,
-            initialRefuelValue = initialRefuelValue
+            initialRefuelValue = initialRefuelValue,
+            isRegistered = UserProfile.TYPE_UNREGISTERED != store.userType
         )
     }
 
-    private fun subscribeToRefuelSubject() {
+    private fun subscribeToSubjects() {
+        stateSubject.subscribe {
+            println("TEKST $state")
+            updateViewModel { copy(state = it) }
+        }.let(disposables::add)
+
         fuelPercentageSubject.subscribe { value ->
             if (value == REFUEL_MAX_VALUE) {
                 binding.refuelButton.text = "Tankuj"
+                binding.payButton.isEnabled = true
                 state = FuelingState.FULL_TANK
                 binding.carImage.clearAnimation()
-                binding.refuelButton.isEnabled = false
             }
             binding.refuelPercentage.text = "${value}%"
             updateDetailsModel(value)
@@ -80,19 +86,17 @@ class RefuelingFragment : Fragment() {
     }
 
     private fun updateDetailsModel(actualValue: Int) {
-        val model = binding.detailsModel
+        val model = binding.model?.detailsModel
         val realValue = (actualValue - initialRefuelValue) / 2.0
         val price = BigDecimal(model?.pricePerUnit?.times(realValue) ?: 0.0).setScale(2, RoundingMode.HALF_UP)
-        binding.detailsModel = model?.copy(capacity = realValue, price = price.toDouble())
+        updateViewModel {
+            copy(detailsModel = model?.copy(capacity = realValue, price = price.toDouble()) ?: detailsModel)
+        }
     }
 
     private fun handleItemClick(model: RefuelItemModel) {
-        binding.detailsModel = binding.detailsModel?.copy(pricePerUnit = model.pricePerUnit)
         updateViewModel {
-            copy(
-                detailsModel = RefuelItemDetailsModel(pricePerUnit = model.pricePerUnit),
-                activeItem = model
-            )
+            copy(detailsModel = RefuelItemDetailsModel(pricePerUnit = model.pricePerUnit), activeItem = model)
         }
         itemList?.map { it.copy(isClicked = it.id == model.id) }?.let { items ->
             (binding.distributorView.refuelRecycler.adapter as RefuelRecyclerAdapter).updateItems(items)
