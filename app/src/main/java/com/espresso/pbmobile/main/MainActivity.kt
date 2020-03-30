@@ -14,7 +14,7 @@ import com.espresso.pbmobile.main.dashboard.DashboardFragment
 import com.espresso.pbmobile.main.info.InfoFragment
 import com.espresso.pbmobile.main.refueling.RefuelingFragment
 import com.espresso.pbmobile.main.rewards.RewardsFragment
-import com.espresso.pbmobile.store.Store
+import com.espresso.data.store.Store
 
 class MainActivity : AppCompatActivity(), DashboardFragment.Delegate {
     private val binding by lazy(LazyThreadSafetyMode.NONE) { DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main) }
@@ -56,6 +56,10 @@ class MainActivity : AppCompatActivity(), DashboardFragment.Delegate {
 
     override fun openRefuelingFragment() {
         binding.bottomNav.selectedItemId = R.id.refuel
+    }
+
+    override fun openPointsFragment() {
+        binding.bottomNav.selectedItemId = R.id.rewards
     }
 
     companion object {

@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.espresso.data.models.profile.ProfileRepository
+import com.espresso.data.store.Store
 import com.espresso.pbmobile.R
 import com.espresso.pbmobile.auth.AuthActivity
 import com.espresso.pbmobile.databinding.FragmentDashboardBinding
-import com.espresso.pbmobile.store.Store
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -52,6 +52,10 @@ class DashboardFragment : Fragment() {
         binding.loginView.loginButton.clicks()
             .subscribe { startActivity(AuthActivity.createIntent(requireContext())) }
             .let(disposables::add)
+
+        binding.pointsView.exchangeButton.clicks()
+            .subscribe { delegate.openPointsFragment() }
+            .let(disposables::add)
     }
 
     override fun onDestroy() {
@@ -61,6 +65,7 @@ class DashboardFragment : Fragment() {
 
     interface Delegate {
         fun openRefuelingFragment()
+        fun openPointsFragment()
     }
 
     companion object {

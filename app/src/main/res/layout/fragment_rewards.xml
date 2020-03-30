@@ -5,6 +5,25 @@
 
     <data>
 
+        <import type="java.util.List" />
+
+        <import type="com.espresso.pbmobile.main.rewards.RewardsItemModel" />
+
+        <import type="com.espresso.pbmobile.main.payment.PaymentItemModel" />
+
+        <import type="com.espresso.pbmobile.main.payment.DocumentItemModel" />
+
+        <variable
+            name="paymentItems"
+            type="List&lt;PaymentItemModel>" />
+
+        <variable
+            name="points"
+            type="Integer" />
+
+        <variable
+            name="items"
+            type="List&lt;RewardsItemModel>" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,12 +31,37 @@
         android:layout_height="match_parent"
         tools:context=".main.rewards.RewardsFragment">
 
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/points_amount"
+            app:tabGravity="fill"
+            app:tabIndicatorHeight="0dp"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed"
+            app:tabRippleColor="@android:color/transparent">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:layout="@layout/item_tab_reward" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:layout="@layout/item_tab_reward" />
+
+        </com.google.android.material.tabs.TabLayout>
+
         <TextView
             android:id="@+id/points_title"
             style="@style/Text.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="Twoje punkty"
             android:textAllCaps="true"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,81 +74,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="X PKT"
+            android:text="@{points + `P`}"
             android:textAllCaps="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/points_title" />
 
-        <View
-            android:id="@+id/button_rewards"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/bg_orange_gradient"
-            android:text="Nagrody"
-            app:layout_constraintEnd_toStartOf="@+id/verical_guideline"
-            app:layout_constraintHorizontal_bias="0.461"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/points_amount" />
-
-        <TextView
-            android:id="@+id/text_rewards"
-            style="@style/Text.H1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nagrody"
-            android:textAllCaps="true"
-            app:layout_constraintBottom_toBottomOf="@+id/button_rewards"
-            app:layout_constraintEnd_toEndOf="@+id/button_rewards"
-            app:layout_constraintStart_toStartOf="@+id/button_rewards"
-            app:layout_constraintTop_toTopOf="@+id/button_rewards" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/verical_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
-
-        <View
-            android:id="@+id/button_grantings"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/dark_blue"
-            android:text="Przyznania"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/verical_guideline"
-            app:layout_constraintTop_toBottomOf="@+id/points_amount" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rewards_recycler"
+            bindingVariableName="@{`model`}"
+            items="@{items}"
+            layoutId="@{@layout/item_reward}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_rewards"
+            app:layout_constraintTop_toBottomOf="@+id/tab_layout"
+            app:spanCount="2"
             tools:itemCount="4"
-            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:listitem="@layout/item_reward"
-            tools:spanCount="2" />
-
-        <TextView
-            android:id="@+id/text_grants"
-            style="@style/Text.H1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Przyznania"
-            android:textAllCaps="true"
-            android:textColor="@color/dark_orange"
-            app:layout_constraintBottom_toBottomOf="@+id/button_grantings"
-            app:layout_constraintEnd_toEndOf="@+id/button_grantings"
-            app:layout_constraintStart_toStartOf="@+id/button_grantings"
-            app:layout_constraintTop_toTopOf="@+id/button_grantings" />
+            tools:listitem="@layout/item_reward" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

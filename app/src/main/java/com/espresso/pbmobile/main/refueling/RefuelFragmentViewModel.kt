@@ -9,15 +9,15 @@ import com.espresso.pbmobile.main.refueling.RefuelItemModel.Companion.ITEM_REFUE
 import com.espresso.pbmobile.main.refueling.RefuelItemModel.Companion.ITEM_REFUEL_ON
 
 data class RefuelFragmentViewModel(
-    private val initialRefuelValue: Int,
     private val activeItem: RefuelItemModel? = null,
     private val state: FuelingState = FuelingState.INACTION,
-    val detailsModel: RefuelItemDetailsModel = RefuelItemDetailsModel(),
-    val isRegistered: Boolean
+    private val isRegistered: Boolean,
+    val detailsModel: RefuelItemDetailsModel = RefuelItemDetailsModel()
 ) {
-
     val fuelButtonEnabled = state != FuelingState.FULL_TANK
-
+    val isFueling = state == FuelingState.FUELING
+    val payButtonEnabled = !isFueling
+    val historyButtonVisible = isRegistered && state != FuelingState.FUELING
 
     fun refuelImageResolver(context: Context) = when (activeItem?.id) {
         ITEM_REFUEL_95 -> ContextCompat.getDrawable(context, R.drawable.gun_95)

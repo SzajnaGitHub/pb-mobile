@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="java.util.List" />
+        <import type="com.espresso.pbmobile.main.payment.PaymentItemModel" />
+        <import type="com.espresso.pbmobile.main.payment.DocumentItemModel" />
+
+        <variable
+            name="paymentItems"
+            type="List&lt;PaymentItemModel>" />
+
+        <variable
+            name="documentItems"
+            type="List&lt;DocumentItemModel>" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        tools:context=".main.payment.PayActivity">
+
+        <View
+            android:id="@id/background"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:background="@drawable/bg_gray_outline"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/payment_type_background"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_dark_blue_top_rounded"
+            app:layout_constraintEnd_toEndOf="@id/background"
+            app:layout_constraintStart_toStartOf="@id/background"
+            app:layout_constraintTop_toTopOf="@id/background" />
+
+        <TextView
+            android:id="@+id/payment_type_text"
+            style="@style/Text.H1.White"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wybierz sposób płatności"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/payment_type_background"
+            app:layout_constraintEnd_toEndOf="@id/payment_type_background"
+            app:layout_constraintStart_toStartOf="@id/payment_type_background"
+            app:layout_constraintTop_toTopOf="@id/payment_type_background" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/payment_type_recycler"
+            bindingVariableName="@{`model`}"
+            items="@{paymentItems}"
+            layoutId="@{@layout/item_payment}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/payment_type_text"
+            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/item_payment"
+            tools:itemCount="3"
+            app:spanCount="3" />
+
+        <View
+            android:id="@+id/document_type_background"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/dark_blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/payment_type_recycler" />
+
+        <TextView
+            android:id="@+id/document_type_text"
+            style="@style/Text.H1.White"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/dark_blue"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="Wybierz rodzaj dowodu tranzakcji"
+            app:layout_constraintBottom_toBottomOf="@+id/document_type_background"
+            app:layout_constraintEnd_toEndOf="@id/document_type_background"
+            app:layout_constraintStart_toStartOf="@id/document_type_background"
+            app:layout_constraintTop_toTopOf="@id/document_type_background" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/document_type_recycler"
+            bindingVariableName="@{`model`}"
+            items="@{documentItems}"
+            layoutId="@{@layout/item_document}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/document_type_text"
+            app:spanCount="2"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_document"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
+
+        <Button
+            android:id="@+id/pay_button"
+            style="@style/Text.H1"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/btn_pay"
+            android:text="Zapłać"
+            app:layout_constraintBottom_toBottomOf="@id/background"
+            app:layout_constraintEnd_toEndOf="@id/background"
+            app:layout_constraintStart_toStartOf="@id/background"
+            app:layout_constraintTop_toBottomOf="@+id/document_type_recycler"
+            app:layout_constraintVertical_bias="0.75" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

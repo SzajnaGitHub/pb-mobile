@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -37,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
-            android:text="@{model.unregistered ? `Gościu` : model.name}"
+            android:text="@{model.unregistered ? `Gościu` : model.nickname}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/welcome_text"
             app:layout_constraintTop_toTopOf="parent" />
@@ -55,6 +56,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/welcome_text" />
 
+        <include
+            android:id="@+id/points_view"
+            layout="@layout/view_dashboard_banner"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="@{model.unregistered ? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/welcome_text"
+            bind:points="@{model.points}" />
+
         <Button
             android:id="@+id/refuel_button"
             android:layout_width="match_parent"
@@ -67,7 +82,7 @@
             android:textSize="72sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/login_view" />
+            app:layout_constraintTop_toBottomOf="@+id/points_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

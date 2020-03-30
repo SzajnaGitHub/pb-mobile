@@ -10,7 +10,7 @@ import com.espresso.pbmobile.R
 import com.espresso.pbmobile.auth.AuthActivity
 import com.espresso.pbmobile.databinding.ActivitySplashBinding
 import com.espresso.pbmobile.main.MainActivity
-import com.espresso.pbmobile.store.Store
+import com.espresso.data.store.Store
 import io.reactivex.Completable
 import io.reactivex.disposables.CompositeDisposable
 import java.util.concurrent.TimeUnit
