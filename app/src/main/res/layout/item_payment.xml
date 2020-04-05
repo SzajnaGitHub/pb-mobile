@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="androidx.core.content.ContextCompat" />
+
+        <variable
+            name="model"
+            type="com.espresso.pbmobile.main.payment.PaymentItemModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:background="@{model.clicked ? @drawable/view_gray_pressed_with_stroke : @drawable/view_gray_with_stroke}"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{() -> model.clickHandler.invoke(model)}"
+        tools:background="@drawable/view_gray_pressed_with_stroke">
+
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/Text.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{model.title}"
+            android:textAllCaps="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="PRZELEW" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:src="@{ContextCompat.getDrawable(context,model.image)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_pay_card" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

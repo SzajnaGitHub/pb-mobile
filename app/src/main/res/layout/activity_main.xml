@@ -28,11 +28,10 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottom_navigation_height"
             android:layout_gravity="bottom"
-            android:background="@android:color/holo_blue_dark"
+            android:background="@drawable/bg_orange_gradient"
             app:itemIconSize="24dp"
-            app:itemTextColor="@color/menu_color_selector"
             app:itemIconTint="@color/menu_color_selector"
-            app:menu="@menu/bottom_navigation_menu" />
+            app:itemTextColor="@color/menu_color_selector" />
 
     </FrameLayout>
 </layout>

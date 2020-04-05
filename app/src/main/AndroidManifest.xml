@@ -13,7 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".history.HistoryActivity"></activity>
+        <activity
+            android:name=".main.carwash.ConfirmReservationActivity"
+            android:theme="@style/Theme.Transparent" />
+
+        <activity android:name=".main.company.InsertCompanyDetailsActivity" />
+        <activity
+            android:name=".main.payment.PaymentResultActivity"
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name=".main.payment.PayActivity"
+            android:theme="@style/Theme.Transparent" />
+        <activity android:name=".history.HistoryActivity" />
         <activity android:name=".auth.AuthActivity" />
         <activity android:name=".splash.SplashActivity">
             <intent-filter>

@@ -12,7 +12,7 @@ import com.espresso.pbmobile.main.refueling.RefuelItemModel.Companion.ITEM_REFUE
 import com.espresso.pbmobile.main.refueling.RefuelItemModel.Companion.ITEM_REFUEL_ON
 
 class RefuelRecyclerAdapter(
-    private val items: List<RefuelItemModel>
+    items: List<RefuelItemModel>
 ) : RecyclerView.Adapter<RefuelRecyclerAdapter.ViewHolder>() {
 
     private var itemList: MutableList<RefuelItemModel> = items.toMutableList()

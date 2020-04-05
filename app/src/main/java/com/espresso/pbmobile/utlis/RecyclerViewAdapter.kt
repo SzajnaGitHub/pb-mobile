@@ -29,7 +29,7 @@ class RecyclerViewAdapter<T>(
 
     fun updateItems(items: List<T>) {
         itemList.clear()
-        itemList = items.toMutableList()
+        itemList.addAll(items)
         notifyDataSetChanged()
     }
 

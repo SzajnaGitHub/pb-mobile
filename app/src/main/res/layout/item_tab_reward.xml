@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.espresso.pbmobile.main.rewards.RewardsTabModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@{model.clicked ? @drawable/bg_orange_gradient : @drawable/bg_dark_blue}"
+        tools:background="@drawable/bg_orange_gradient">
+
+        <TextView
+            style="@style/Text.H1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="@{model.title}"
+            android:textAllCaps="true"
+            android:textColor="@{model.clicked ? @color/dark_blue : @color/light_orange }"
+            tools:text="NAGRODY" />
+
+    </FrameLayout>
+</layout>

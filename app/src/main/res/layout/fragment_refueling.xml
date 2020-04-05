@@ -5,15 +5,21 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="model"
             type="com.espresso.pbmobile.main.refueling.RefuelFragmentViewModel" />
 
         <variable
-            name="detailsModel"
-            type="com.espresso.pbmobile.main.refueling.RefuelItemDetailsModel" />
-
+            name="loading"
+            type="Boolean" />
     </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -32,7 +38,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            bind:model="@{detailsModel}" />
+            bind:model="@{model}" />
 
         <ImageView
             android:id="@+id/car_image"
@@ -61,6 +67,7 @@
             style="@style/Text.H1.White"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{model.detailsModel.percentageText}"
             app:layout_constraintBottom_toBottomOf="@+id/car_image"
             app:layout_constraintEnd_toEndOf="@+id/car_image"
             app:layout_constraintStart_toStartOf="@+id/car_image"
@@ -69,11 +76,12 @@
 
         <Button
             android:id="@+id/pay_button"
-            style="@style/Text.H2.White"
+            style="@style/Text.H2"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/btn_pay"
+            android:enabled="@{model.payButtonEnabled ? true : false}"
             android:text="Zapłać"
             app:layout_constraintBottom_toTopOf="@+id/refuel_button"
             app:layout_constraintEnd_toEndOf="parent"
@@ -81,12 +89,13 @@
 
         <Button
             android:id="@+id/refuel_button"
-            style="@style/Text.H2.White"
+            style="@style/Text.H2"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/btn_refuel"
-            android:text="Tankuj"
+            android:enabled="@{model.fuelButtonEnabled ? true : false}"
+            android:text="@{model.fueling ? `Stop` : `Tankuj`}"
             app:layout_constraintBottom_toBottomOf="@id/car_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pay_button" />
@@ -96,12 +105,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/ic_history"
+            android:visibility="@{model.historyButtonVisible ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toTopOf="@id/pay_button"
             app:layout_constraintEnd_toEndOf="@+id/pay_button"
             app:layout_constraintStart_toStartOf="@+id/pay_button"
-            app:layout_constraintTop_toBottomOf="@+id/distributor_view"
-            android:focusable="true" />
+            app:layout_constraintTop_toBottomOf="@+id/distributor_view" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{loading ? View.VISIBLE : View.GONE }"
+            app:layout_constraintBottom_toBottomOf="@+id/distributor_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

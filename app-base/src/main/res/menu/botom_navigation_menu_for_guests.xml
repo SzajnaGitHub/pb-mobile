@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/refuel"
+        android:icon="@drawable/ic_nav_refueling"
+        android:title="@string/bottom_nav_refuel_title" />
+    <item
+        android:id="@+id/rewards"
+        android:icon="@drawable/ic_nav_points_locked"
+        android:enabled="false"
+        android:title="@string/bottom_nav_rewards_title" />
+    <item
+        android:id="@+id/dashboard"
+        android:icon="@drawable/ic_nav_home"
+        android:title="@string/bottom_nav_dash_title" />
+    <item
+        android:id="@+id/car_wash"
+        android:icon="@drawable/ic_nav_carwash_locked"
+        android:enabled="false"
+        android:title="@string/bottom_nav_car_wash_title" />
+    <item
+        android:id="@+id/info"
+        android:icon="@drawable/ic_nav_info"
+        android:title="@string/bottom_nav_info_title" />
+</menu>

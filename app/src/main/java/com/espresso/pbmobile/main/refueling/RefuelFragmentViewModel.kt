@@ -7,14 +7,17 @@ import com.espresso.pbmobile.main.refueling.RefuelItemModel.Companion.ITEM_REFUE
 import com.espresso.pbmobile.main.refueling.RefuelItemModel.Companion.ITEM_REFUEL_98
 import com.espresso.pbmobile.main.refueling.RefuelItemModel.Companion.ITEM_REFUEL_LPG
 import com.espresso.pbmobile.main.refueling.RefuelItemModel.Companion.ITEM_REFUEL_ON
-import io.reactivex.subjects.BehaviorSubject
 
 data class RefuelFragmentViewModel(
-    private val initialRefuelValue: Int,
-    private val state: FuelingState,
     private val activeItem: RefuelItemModel? = null,
+    private val state: FuelingState = FuelingState.INACTION,
+    private val isRegistered: Boolean,
     val detailsModel: RefuelItemDetailsModel = RefuelItemDetailsModel()
 ) {
+    val fuelButtonEnabled = state != FuelingState.FULL_TANK
+    val isFueling = state == FuelingState.FUELING
+    val payButtonEnabled = !isFueling && detailsModel.capacity != 0.0
+    val historyButtonVisible = isRegistered && state != FuelingState.FUELING
 
     fun refuelImageResolver(context: Context) = when (activeItem?.id) {
         ITEM_REFUEL_95 -> ContextCompat.getDrawable(context, R.drawable.gun_95)

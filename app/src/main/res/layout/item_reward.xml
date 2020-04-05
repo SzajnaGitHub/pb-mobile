@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="model"
+            type="com.espresso.pbmobile.main.rewards.RewardsItemModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:background="@drawable/bg_reward">
+        android:clickable="true"
+        android:onClick="@{() -> model.clickHandler.invoke(model)}"
+        android:background="@drawable/btn_orange_outline_rounded"
+        android:focusable="true">
 
         <TextView
             android:id="@+id/textView"
@@ -17,16 +23,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="BENZYNA/ON"
+            android:text="@{model.title}"
+            android:textAllCaps="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="LPG"/>
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/ic_car"
+            android:layout_marginTop="4dp"
+            android:src="@{model.resolveImage(context)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -35,11 +44,12 @@
             style="@style/Text.H2.White"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="X PKT"
+            android:text="@{model.points + `P`}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            tools:text="50P"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

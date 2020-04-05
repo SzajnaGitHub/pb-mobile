@@ -11,16 +11,17 @@ object RecyclerBindingAdapter {
     @BindingAdapter("items", "layoutId", "bindingVariableName")
     fun <T> bindRecyclerItem(
         recyclerView: RecyclerView,
-        items: List<T>,
+        items: List<T>?,
         @LayoutRes layoutId: Int,
         bindingVariableName: String
     ) {
         val bindingVariableId = BR::class.java.getDeclaredField(bindingVariableName).getInt(null)
-        recyclerView.adapter = RecyclerViewAdapter(
-            items = items,
-            layoutId = layoutId,
-            bindingVariableId = bindingVariableId
-        )
-        (recyclerView.adapter as RecyclerViewAdapter<T>).updateItems(items)
+        items?.let {
+            recyclerView.adapter = RecyclerViewAdapter(
+                items = items,
+                layoutId = layoutId,
+                bindingVariableId = bindingVariableId
+            )
+        }
     }
 }
