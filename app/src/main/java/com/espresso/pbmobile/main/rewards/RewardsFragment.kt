@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.espresso.data.RetrofitClient
 import com.espresso.data.models.profile.ProfileRepository
 import com.espresso.data.store.Store
 import com.espresso.pbmobile.R
@@ -20,13 +22,15 @@ import io.reactivex.schedulers.Schedulers
 class RewardsFragment : Fragment() {
     private lateinit var binding: FragmentRewardsBinding
     private lateinit var store: Store
+    private var points = 0
+    private val service = RetrofitClient.getInstance()
     private val disposables = CompositeDisposable()
     private val list = arrayListOf<ItemTabRewardBinding>()
     private val rewardsPointsList = listOf(
-        RewardsItemModel(1, "Benzyna/on", 100),
-        RewardsItemModel(2, "lpg", 50),
-        RewardsItemModel(3, "Myjnia", 300),
-        RewardsItemModel(4, "Myjnia z woskiem", 400)
+        RewardsItemModel(1, "Benzyna/on", 100, ::handleRewardsClick),
+        RewardsItemModel(2, "lpg", 50, ::handleRewardsClick),
+        RewardsItemModel(3, "Myjnia", 300, ::handleRewardsClick),
+        RewardsItemModel(4, "Myjnia z woskiem", 400, ::handleRewardsClick)
     )
     private val itemPointsList = listOf(
         RewardsItemModel(1, "Benzyna/on", 2),
@@ -44,12 +48,13 @@ class RewardsFragment : Fragment() {
         return binding.root
     }
 
-    private fun setupProfile() {
-        ProfileRepository.profile(store.userId)
+    private fun setupProfile(fromService: Boolean = false) {
+        ProfileRepository.profile(store.userId, fromService)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                binding.points = it.points.toInt()
+                points = it.points
+                binding.points = points
             }
             .let(disposables::add)
     }
@@ -57,6 +62,27 @@ class RewardsFragment : Fragment() {
     private fun setupRecycler() {
         binding.items = rewardsPointsList
         binding.rewardsRecycler.addItemDecoration(RecyclerMarginDecorator(requireContext()))
+    }
+
+    private fun handleRewardsClick(model: RewardsItemModel) {
+        if (points > model.points) {
+            getReward(model.id)
+        } else {
+            Toast.makeText(requireContext(), "Masz za mało puntków", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun getReward(productId: Long) {
+        service.getReward(store.userId, productId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe{binding.loading = true}
+            .doAfterTerminate { binding.loading = false }
+            .subscribe {
+                Toast.makeText(requireContext(), "Nagroda dodana pomyślnie", Toast.LENGTH_SHORT).show()
+                setupProfile(fromService = true)
+            }
+            .let(disposables::add)
     }
 
     private fun setupTabLayout() {
@@ -78,7 +104,6 @@ class RewardsFragment : Fragment() {
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(p0: TabLayout.Tab?) {}
             override fun onTabUnselected(p0: TabLayout.Tab?) {}
-
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.position?.let { handleOnTabClick(it) }
 

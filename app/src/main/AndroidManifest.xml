@@ -13,7 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".main.company.InsertCompanyDetailsActivity"></activity>
+        <activity
+            android:name=".main.carwash.ConfirmReservationActivity"
+            android:theme="@style/Theme.Transparent" />
+
+        <activity android:name=".main.company.InsertCompanyDetailsActivity" />
         <activity
             android:name=".main.payment.PaymentResultActivity"
             android:theme="@style/Theme.Transparent" />

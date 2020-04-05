@@ -16,7 +16,7 @@ data class RefuelFragmentViewModel(
 ) {
     val fuelButtonEnabled = state != FuelingState.FULL_TANK
     val isFueling = state == FuelingState.FUELING
-    val payButtonEnabled = !isFueling
+    val payButtonEnabled = !isFueling && detailsModel.capacity != 0.0
     val historyButtonVisible = isRegistered && state != FuelingState.FUELING
 
     fun refuelImageResolver(context: Context) = when (activeItem?.id) {

@@ -6,16 +6,8 @@
     <data>
 
         <import type="java.util.List" />
-
+        <import type="android.view.View" />
         <import type="com.espresso.pbmobile.main.rewards.RewardsItemModel" />
-
-        <import type="com.espresso.pbmobile.main.payment.PaymentItemModel" />
-
-        <import type="com.espresso.pbmobile.main.payment.DocumentItemModel" />
-
-        <variable
-            name="paymentItems"
-            type="List&lt;PaymentItemModel>" />
 
         <variable
             name="points"
@@ -24,6 +16,10 @@
         <variable
             name="items"
             type="List&lt;RewardsItemModel>" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,6 +34,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/points_amount"
+            android:layout_marginTop="8dp"
             app:tabGravity="fill"
             app:tabIndicatorHeight="0dp"
             app:tabMaxWidth="0dp"
@@ -56,9 +53,18 @@
 
         </com.google.android.material.tabs.TabLayout>
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/points_amount"
+            android:background="@color/dark_blue"/>
+
         <TextView
             android:id="@+id/points_title"
-            style="@style/Text.Title"
+            style="@style/Text.Title.White"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -70,7 +76,7 @@
 
         <TextView
             android:id="@+id/points_amount"
-            style="@style/Text.Title"
+            style="@style/Text.Title.White"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -78,7 +84,8 @@
             android:textAllCaps="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/points_title" />
+            app:layout_constraintTop_toBottomOf="@+id/points_title"
+            tools:text="99P"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rewards_recycler"
@@ -89,6 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
+            android:scrollbars="none"
             android:layout_marginEnd="8dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
@@ -97,6 +105,15 @@
             app:spanCount="2"
             tools:itemCount="4"
             tools:listitem="@layout/item_reward" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{loading ? View.VISIBLE : View.GONE }"
+            app:layout_constraintBottom_toBottomOf="@+id/rewards_recycler"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rewards_recycler" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

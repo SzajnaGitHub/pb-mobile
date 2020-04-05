@@ -18,34 +18,23 @@
             style="@style/Text.H2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@{model.date}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="2dp"
+            android:text="@{`` + model.date}"
+            app:layout_constraintBottom_toBottomOf="@+id/date_header"
+            app:layout_constraintStart_toEndOf="@+id/date_header"
+            app:layout_constraintTop_toTopOf="@+id/date_header"
             tools:text="13.03.2020r" />
-
-        <TextView
-            android:id="@+id/hour"
-            style="@style/Text.H2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@{model.hour}"
-            app:layout_constraintStart_toStartOf="@+id/date"
-            app:layout_constraintTop_toBottomOf="@+id/date"
-            tools:text="21:34" />
 
         <TextView
             android:id="@+id/fuel_type"
             style="@style/Text.H2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="@{model.fuelType}"
+            app:layout_constraintBottom_toBottomOf="@+id/fuel_type_header"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fuel_type_header"
             tools:text="LPG" />
 
         <TextView
@@ -61,6 +50,65 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fuel_type"
             tools:text="100 PLN" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/date_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Data:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fuel_type_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="2dp"
+            android:text="Typ paliwa:"
+            app:layout_constraintEnd_toStartOf="@+id/fuel_type"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/points_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="Punkty:"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/cost_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:text="Koszt:"
+            app:layout_constraintBottom_toBottomOf="@+id/price"
+            app:layout_constraintEnd_toStartOf="@+id/price"
+            app:layout_constraintTop_toTopOf="@+id/price" />
+
+        <TextView
+            android:id="@+id/textView22"
+            style="@style/Text.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:text="@{model.points + `P`}"
+            app:layout_constraintBottom_toBottomOf="@+id/points_header"
+            app:layout_constraintStart_toEndOf="@+id/points_header"
+            app:layout_constraintTop_toTopOf="@+id/points_header" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

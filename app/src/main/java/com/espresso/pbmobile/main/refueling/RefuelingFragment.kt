@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.espresso.data.RetrofitClientInstance
+import com.espresso.data.RetrofitClient
 import com.espresso.data.models.profile.UserProfile
 import com.espresso.data.models.refuel.RefuelProductsRepo
 import com.espresso.data.store.Store
@@ -27,14 +27,11 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import java.math.BigDecimal
 import java.math.RoundingMode
-import java.time.ZoneId
-import java.util.*
+import kotlin.math.roundToInt
 import kotlin.random.Random
-import kotlin.time.days
-import kotlin.time.hours
 
 class RefuelingFragment : Fragment() {
-    private val service = RetrofitClientInstance.getInstance()
+    private val service = RetrofitClient.getInstance()
     private lateinit var binding: FragmentRefuelingBinding
     private lateinit var store: Store
 
@@ -43,15 +40,22 @@ class RefuelingFragment : Fragment() {
     private val fuelPercentageSubject = BehaviorSubject.create<Int>()
     private val stateSubject = BehaviorSubject.createDefault(FuelingState.INACTION)
     private var canFuel = false
+    private var canChooseFuelType = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentRefuelingBinding.inflate(inflater, container, false)
         store = Store(requireContext())
-        setupViewModel()
-        subscribeToSubjects()
         setupBindings()
         setupRecycler()
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupViewModel()
+        subscribeToSubjects()
+        canFuel = false
+        canChooseFuelType = true
     }
 
     private fun setupViewModel() {
@@ -67,6 +71,8 @@ class RefuelingFragment : Fragment() {
                 )
             }
         }
+            .doOnSubscribe { binding.loading = true }
+            .doAfterTerminate { binding.loading = false }
             .subscribe { items ->
                 binding.distributorView.items = items
                 binding.distributorView.refuelRecycler.adapter = RefuelRecyclerAdapter(items).apply { setHasStableIds(true) }
@@ -87,6 +93,7 @@ class RefuelingFragment : Fragment() {
                 binding.carImage.clearAnimation()
             }
             updateDetailsModel(value)
+            canChooseFuelType = false
         }.let(disposables::add)
     }
 
@@ -100,6 +107,7 @@ class RefuelingFragment : Fragment() {
     }
 
     private fun handleItemClick(model: RefuelItemModel) {
+        if(canChooseFuelType) {
         canFuel = true
         updateViewModel {
             copy(detailsModel = RefuelItemDetailsModel(pricePerUnit = model.pricePerUnit, percentageValue = initialValue, id = model.id, product = model.name), activeItem = model)
@@ -107,7 +115,7 @@ class RefuelingFragment : Fragment() {
         binding.distributorView.items?.map { it.copy(isClicked = it.id == model.id) }?.let { items ->
             (binding.distributorView.refuelRecycler.adapter as RefuelRecyclerAdapter).updateItems(items)
         }
-    }
+    }}
 
     private fun updateViewModel(model: RefuelFragmentViewModel.() -> RefuelFragmentViewModel) {
         binding.model?.let(model).let(binding::setModel)
@@ -138,23 +146,28 @@ class RefuelingFragment : Fragment() {
         }
 
         binding.historyButton.setOnClickListener {
-            service.getRefuelHistory(store.userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map {
-                    it.map { model ->
-                        RefuelHistoryItemModel(
-                            date = "${model.dateRefueling.time}",
-                            cost = model.product.priceBrutto * model.quantity,
-                            fuelType = model.product.productName
-                        )
-                    }
-                }
-                .subscribe { items ->
-                    openHistoryActivity(items)
-                }
-                .let(disposables::add)
+            getHistoryItems()
         }
+    }
+
+    private fun getHistoryItems() {
+        service.getRefuelHistory(store.userId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                it.reversed().map { model ->
+                    RefuelHistoryItemModel(
+                        date = model.dateRefueling.substring(0,10),
+                        cost = BigDecimal(model.product.priceBrutto * model.quantity).setScale(2, RoundingMode.HALF_UP).toDouble(),
+                        fuelType = model.product.productName,
+                        points = model.points.roundToInt()
+                    )
+                }
+            }
+            .subscribe { items ->
+                openHistoryActivity(items)
+            }
+            .let(disposables::add)
     }
 
     private fun openHistoryActivity(items: List<RefuelHistoryItemModel>) {

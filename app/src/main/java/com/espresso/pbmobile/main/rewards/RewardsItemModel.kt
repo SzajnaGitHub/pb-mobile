@@ -4,10 +4,13 @@ import android.content.Context
 import androidx.core.content.ContextCompat
 import com.espresso.pbmobile.R
 
+typealias RewardItemClickHandler = (RewardsItemModel) -> Unit
+
 data class RewardsItemModel(
     val id: Long,
     val title: String,
-    val points: Int
+    val points: Int,
+    val clickHandler: RewardItemClickHandler? = null
 ) {
     fun resolveImage(context: Context) = when (id) {
         PETROL_ID -> ContextCompat.getDrawable(context, R.drawable.ic_rewards_gas)

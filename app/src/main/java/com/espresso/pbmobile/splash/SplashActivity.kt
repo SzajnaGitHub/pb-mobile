@@ -5,7 +5,7 @@ import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.espresso.data.RetrofitClientInstance
+import com.espresso.data.RetrofitClient
 import com.espresso.pbmobile.R
 import com.espresso.pbmobile.auth.AuthActivity
 import com.espresso.pbmobile.databinding.ActivitySplashBinding
@@ -25,7 +25,7 @@ class SplashActivity : AppCompatActivity() {
         store = Store(this)
         binding.image.setBackgroundResource(R.drawable.splash_animation_list)
         (binding.image.background as AnimationDrawable).start()
-        RetrofitClientInstance.initRetrofitClient()
+        RetrofitClient.initRetrofitClient()
 
         Completable.timer(700, TimeUnit.MILLISECONDS)
             .subscribe {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View" />
         <import type="java.util.List" />
         <import type="com.espresso.pbmobile.main.payment.PaymentItemModel" />
         <import type="com.espresso.pbmobile.main.payment.DocumentItemModel" />
@@ -16,6 +16,10 @@
         <variable
             name="documentItems"
             type="List&lt;DocumentItemModel>" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
 
     </data>
 
@@ -128,6 +132,19 @@
             app:layout_constraintStart_toStartOf="@id/background"
             app:layout_constraintTop_toBottomOf="@+id/document_type_recycler"
             app:layout_constraintVertical_bias="0.75" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:visibility="@{loading ? View.VISIBLE : View.GONE }"
+            app:layout_constraintBottom_toTopOf="@+id/pay_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/document_type_recycler"
+            app:layout_constraintVertical_bias="1.0" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

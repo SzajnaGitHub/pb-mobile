@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.espresso.data.models.address.AddressModel
@@ -20,17 +21,30 @@ class InsertCompanyDetailsActivity : AppCompatActivity() {
         binding.addButton.setOnClickListener {
             val model = CompanyModel(
                 name = binding.companyNameText.text.toString(),
-                nip = binding.nipText.toString(),
-                regon = binding.regonText.toString(),
+                nip = binding.nipText.text.toString(),
+                regon = binding.regonText.text.toString(),
                 address = AddressModel(
-                    country = binding.countryText.toString(),
-                    city = binding.cityText.toString(),
-                    street = binding.streetText.toString(),
-                    zipCode = binding.zipCodeText.toString()
+                    country = binding.countryText.text.toString(),
+                    city = binding.cityText.text.toString(),
+                    street = binding.streetText.text.toString(),
+                    zipCode = binding.zipCodeText.text.toString()
                 )
             )
-            setResult(Activity.RESULT_OK, Intent().apply { putExtra(PayActivity.RETURN_COMPANY_MODEL, model) })
-            finish()
+            checkCompany(model)
+        }
+    }
+
+    private fun finishActivity(model: CompanyModel) {
+        setResult(Activity.RESULT_OK, Intent().apply { putExtra(PayActivity.RETURN_COMPANY_MODEL, model) })
+        finish()
+    }
+
+    private fun checkCompany(model: CompanyModel) {
+        model.apply {
+            if (name.isNullOrEmpty() || nip.isNullOrEmpty() || regon.isNullOrEmpty() || address?.city.isNullOrEmpty() ||
+                address?.street.isNullOrEmpty() || address?.country.isNullOrEmpty() || address?.zipCode.isNullOrEmpty()
+            ) Toast.makeText(this@InsertCompanyDetailsActivity, "Proszę wypenij wszystkie dane", Toast.LENGTH_SHORT).show()
+            else finishActivity(model)
         }
     }
 

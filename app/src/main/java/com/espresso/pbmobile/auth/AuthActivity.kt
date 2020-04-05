@@ -4,12 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.espresso.data.RetrofitClientInstance
+import com.espresso.data.RetrofitClient
 import com.espresso.data.models.profile.UserProfile
 import com.espresso.data.models.profile.UserRegisterInfo
+import com.espresso.data.store.Store
 import com.espresso.pbmobile.R
 import com.espresso.pbmobile.main.MainActivity
-import com.espresso.data.store.Store
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -27,7 +27,7 @@ class AuthActivity : AppCompatActivity() {
     private lateinit var store: Store
     private val disposables = CompositeDisposable()
     private val auth = FirebaseAuth.getInstance()
-    private val service = RetrofitClientInstance.getInstance()
+    private val service = RetrofitClient.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,10 +54,15 @@ class AuthActivity : AppCompatActivity() {
             try {
                 task.getResult(ApiException::class.java)?.let { firebaseAuthWithGoogle(it) }
             } catch (e: ApiException) {
-                if(store.userId != Store.LONG_DEFAULT_VALUE)
-                registerUser(UserRegisterInfo(uid = UUID.randomUUID().toString()))
+                registerGuest()
             }
         }
+    }
+
+    private fun registerGuest() {
+        println("TEKST REGUSTER")
+        registerUser(UserRegisterInfo(uid = UUID.randomUUID().toString()))
+
     }
 
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {

@@ -3,7 +3,7 @@ package com.espresso.data.models.profile
 data class UserProfile(
     val nickname: String?,
     val id: Long,
-    val points: Double,
+    val points: Int,
     val userType: String
 ) {
     fun isUnregistered() = userType == TYPE_UNREGISTERED
@@ -17,9 +17,9 @@ data class UserProfile(
             else -> null
         }
 
-        const val TYPE_REGISTERED = "REGISTERED"
-        const val TYPE_OWNER = "OWNER"
-        const val TYPE_WORKER = "WORKER"
+        private const val TYPE_REGISTERED = "REGISTERED"
+        private const val TYPE_OWNER = "OWNER"
+        private const val TYPE_WORKER = "WORKER"
         const val TYPE_UNREGISTERED = "UNREGISTERED"
     }
 }

@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
-import com.espresso.data.RetrofitClientInstance
+import com.espresso.data.RetrofitClient
 import com.espresso.data.models.company.CompanyModel
 import com.espresso.data.models.pay.PayWithInvoiceModel
 import com.espresso.data.models.pay.PayWithReceiptModel
@@ -21,8 +21,6 @@ import com.espresso.pbmobile.utlis.RecyclerMarginDecorator
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import org.json.JSONObject
-import retrofit2.HttpException
 import java.text.DateFormat
 import java.util.*
 import kotlin.random.Random
@@ -31,7 +29,7 @@ class PayActivity : AppCompatActivity() {
     private val binding by lazy(LazyThreadSafetyMode.NONE) { DataBindingUtil.setContentView<ActivityPayBinding>(this, R.layout.activity_pay) }
     private val detailsModel: RefuelItemDetailsModel by lazy(LazyThreadSafetyMode.NONE) { intent.getParcelableExtra(MODEL) as RefuelItemDetailsModel }
     private val disposables = CompositeDisposable()
-    private val service = RetrofitClientInstance.getInstance()
+    private val service = RetrofitClient.getInstance()
     private val currentDate = DateFormat.getDateInstance().format(Calendar.getInstance().time)
     private lateinit var store: Store
     private var paymentMethodChoosed = false
@@ -106,6 +104,8 @@ class PayActivity : AppCompatActivity() {
         service.payWithReceipt(receiptModel)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { binding.loading = true }
+            .doAfterTerminate { binding.loading = false }
             .subscribe {
                 handlePayment("Paragon")
             }
@@ -126,8 +126,10 @@ class PayActivity : AppCompatActivity() {
         service.payWithInvoice(invoiceModel)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe{binding.loading = true}
+            .doAfterTerminate { binding.loading = false }
             .subscribe {
-                handlePayment("Faktura", nip = companyModel.nip)
+                companyModel.nip?.let { handlePayment("Faktura", nip = it) }
             }
             .let(disposables::add)
     }
@@ -136,17 +138,19 @@ class PayActivity : AppCompatActivity() {
         service.getUserCompany(store.userId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe{binding.loading = true}
+            .doAfterTerminate { binding.loading = false }
             .subscribe({ company ->
+                println("TEKST ${store.userId}")
                 println("TEKST COMPANY $company")
-                if (company.nip == "null") addUserCompany()
+                if (company.nip == null) addUserCompany()
                 else handleInvoice(company)
             }, {
-                handleCompanyError(it)
             })
             .let(disposables::add)
     }
 
-    private fun handleCompanyError(throwable: Throwable) {
+/*    private fun handleCompanyError(throwable: Throwable) {
         val error = throwable as HttpException
         val jsonResponse = error.response().errorBody()?.string()?.let { JSONObject(it) }
         when (jsonResponse?.optInt("errorNumber")) {
@@ -160,7 +164,7 @@ class PayActivity : AppCompatActivity() {
                 //throw throwable
             }
         }
-    }
+    }*/
 
     private fun addUserCompany() {
         startActivityForResult(InsertCompanyDetailsActivity.createIntent(this), INSERT_COMPANY_DETAILS_CODE)
@@ -169,9 +173,23 @@ class PayActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == INSERT_COMPANY_DETAILS_CODE && resultCode == Activity.RESULT_OK) {
-            handleInvoice(data?.getParcelableExtra(RETURN_COMPANY_MODEL) as CompanyModel)
+            val company = data?.getParcelableExtra(RETURN_COMPANY_MODEL) as CompanyModel
+            println("TEKST RETRUN COMPANY $company")
+            addCompany(company)
+            handleInvoice(company)
             println("TEKST OK")
         }
+    }
+
+    private fun addCompany(company: CompanyModel) {
+        service.addUserCompany(store.userId, company)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                println("TEKST ADDED COMPANY")
+            }
+            .let(disposables::add)
+
     }
 
     private fun handlePayment(title: String, nip: String = "") {

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="androidx.core.content.ContextCompat"/>
         <variable
             name="model"
             type="com.espresso.pbmobile.history.CarWashHistoryItemModel" />
@@ -11,7 +12,17 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/date_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Data:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
@@ -19,35 +30,56 @@
             style="@style/Text.H2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="4dp"
             android:text="@{model.date}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/date_header"
+            app:layout_constraintStart_toEndOf="@+id/date_header"
+            app:layout_constraintTop_toTopOf="@+id/date_header"
             tools:text="13.03.2020r" />
+
+        <TextView
+            android:id="@+id/hour_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="Godzina:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date_header" />
 
         <TextView
             android:id="@+id/hour"
             style="@style/Text.H2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
             android:text="@{model.hour}"
-            app:layout_constraintStart_toStartOf="@+id/date"
-            app:layout_constraintTop_toBottomOf="@+id/date"
+            app:layout_constraintBottom_toBottomOf="@+id/hour_header"
+            app:layout_constraintStart_toEndOf="@+id/hour_header"
+            app:layout_constraintTop_toTopOf="@+id/hour_header"
+            app:layout_constraintVertical_bias="0.857"
             tools:text="21:34" />
 
-        <TextView
-            android:id="@+id/fuel_type"
-            style="@style/Text.H2"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@{model.fuelType}"
+            android:src="@{ContextCompat.getDrawable(context, model.resolveImage())}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="13.03.2020r" />
+            app:layout_constraintHorizontal_bias="0.7"
+            app:layout_constraintStart_toEndOf="@+id/date"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/black"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hour" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.espresso.data.models.profile.UserProfile
+import com.espresso.data.store.Store
 import com.espresso.pbmobile.R
 import com.espresso.pbmobile.databinding.ActivityMainBinding
 import com.espresso.pbmobile.main.carwash.CarWashFragment
@@ -14,11 +15,11 @@ import com.espresso.pbmobile.main.dashboard.DashboardFragment
 import com.espresso.pbmobile.main.info.InfoFragment
 import com.espresso.pbmobile.main.refueling.RefuelingFragment
 import com.espresso.pbmobile.main.rewards.RewardsFragment
-import com.espresso.data.store.Store
 
-class MainActivity : AppCompatActivity(), DashboardFragment.Delegate {
+class MainActivity : AppCompatActivity(), DashboardFragment.Delegate{
     private val binding by lazy(LazyThreadSafetyMode.NONE) { DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main) }
     private lateinit var store: Store
+    private var date = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +61,10 @@ class MainActivity : AppCompatActivity(), DashboardFragment.Delegate {
 
     override fun openPointsFragment() {
         binding.bottomNav.selectedItemId = R.id.rewards
+    }
+
+    override fun openCarWashFragment() {
+        binding.bottomNav.selectedItemId = R.id.car_wash
     }
 
     companion object {

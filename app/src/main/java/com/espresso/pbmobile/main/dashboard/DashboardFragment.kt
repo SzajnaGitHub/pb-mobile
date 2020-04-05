@@ -40,7 +40,11 @@ class DashboardFragment : Fragment() {
         ProfileRepository.profile(store.userId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(binding::setModel)
+            .doOnSubscribe { binding.loading = true }
+            .subscribe{
+                binding.model = it
+                binding.loading = false
+            }
             .let(disposables::add)
     }
 
@@ -56,6 +60,10 @@ class DashboardFragment : Fragment() {
         binding.pointsView.exchangeButton.clicks()
             .subscribe { delegate.openPointsFragment() }
             .let(disposables::add)
+
+        binding.carWashButton.clicks()
+            .subscribe { delegate.openCarWashFragment() }
+            .let(disposables::add)
     }
 
     override fun onDestroy() {
@@ -66,6 +74,7 @@ class DashboardFragment : Fragment() {
     interface Delegate {
         fun openRefuelingFragment()
         fun openPointsFragment()
+        fun openCarWashFragment()
     }
 
     companion object {

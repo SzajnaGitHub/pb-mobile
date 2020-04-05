@@ -6,9 +6,9 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class CompanyModel(
-    val name: String,
-    val nip: String,
-    val regon: String,
-    val address: AddressModel
+    val name: String?,
+    val nip: String?,
+    val regon: String?,
+    val address: AddressModel?
 ) : Parcelable
 
