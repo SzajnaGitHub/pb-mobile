@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.espresso.pbmobile.R" />
+
+        <variable
+            name="model"
+            type="com.espresso.data.models.admin.StationStateModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        <View
+            android:id="@id/background"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/bg_gray_outline"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/warning_header"
+            style="@style/Text.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.format(context.getString(R.string.tank_fulfillment_warning),model.productName)}"
+            app:layout_constraintEnd_toEndOf="@+id/background"
+            app:layout_constraintHorizontal_bias="0.748"
+            app:layout_constraintStart_toStartOf="@+id/background"
+            app:layout_constraintTop_toTopOf="@+id/image_warning"
+            tools:text="Procent wypełnienia zbiornika: LPG" />
+
+        <TextView
+            android:id="@+id/textView40"
+            style="@style/Text.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{String.format(context.getString(R.string.warning_percent_value),model.percentValueText)}"
+            app:layout_constraintEnd_toEndOf="@+id/warning_header"
+            app:layout_constraintStart_toStartOf="@+id/warning_header"
+            app:layout_constraintTop_toBottomOf="@+id/warning_header"
+            tools:text="10%" />
+
+        <ImageView
+            android:id="@+id/image_warning"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_warning_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@id/background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/background"
+            app:layout_constraintVertical_bias="0.36"
+            tools:ignore="ContentDescription" />
+
+        <Button
+            android:id="@+id/check_state_button"
+            style="@style/Text.H1"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_orange_outline_rounded"
+            android:text="@string/action_check_state"
+            app:layout_constraintBottom_toBottomOf="@+id/background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView40" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

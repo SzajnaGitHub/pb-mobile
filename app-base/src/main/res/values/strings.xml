@@ -5,4 +5,107 @@
     <string name="bottom_nav_dash_title">Dashboard</string>
     <string name="bottom_nav_rewards_title">Rewards</string>
     <string name="bottom_nav_info_title">Info</string>
+
+    <string name="type_98">98</string>
+    <string name="type_95">95</string>
+    <string name="type_on">ON</string>
+    <string name="type_lpg">LPG</string>
+
+    <string name="toolbar_history">History</string>
+    <string name="toolbar_gas_prices">Gas prices</string>
+    <string name="toolbar_owner_panel">Owner Panel</string>
+    <string name="toolbar_worker_panel">Worker Panel</string>
+    <string name="toolbar_your_points">Your points:</string>
+
+    <string name="action_book">Book</string>
+    <string name="action_change">Change</string>
+    <string name="action_add_company">Add company</string>
+    <string name="action_stop">Stop</string>
+
+    <string name="book_confirmation">Do you really want to book:</string>
+    <string name="confirmation_order_text">Do you really want to place an order:</string>
+
+    <string name="hour_header">Hour: %1$s</string>
+    <string name="points_amount">%1$d P</string>
+    <string name="cost_amount">PLN %1$d</string>
+    <string name="tank_fulfillment_warning">Container fulfillment value: %1$s</string>
+    <string name="warning_percent_value">Is: %1$s</string>
+    <string name="company_name_header">Company: %1$s</string>
+    <string name="company_owner_header">Owner: %1$s</string>
+    <string name="company_phone_header">Number: %1$s</string>
+    <string name="company_nip_header">Nip: %1$s</string>
+    <string name="company_regon_header">Regon: %1$s</string>
+    <string name="company_country_header">Country: %1$s</string>
+    <string name="company_city_header">City: %1$s</string>
+    <string name="company_street_header">Street: %1$s</string>
+    <string name="company_zip_header">Zip: %1$s</string>
+
+    <string name="text_company_name">Company name:</string>
+    <string name="text_nip">Nip:</string>
+    <string name="text_regon">Regon:</string>
+    <string name="text_country">Country:</string>
+    <string name="text_city">City:</string>
+    <string name="text_street">Street:</string>
+    <string name="text_zip_code">Zip.:</string>
+    <string name="toolbar_loyalty_program">Loyalty Program</string>
+    <string name="toolbar_cctv">CCTV</string>
+    <string name="action_order">Order</string>
+    <string name="toolbar_payment_method">Choose method type</string>
+    <string name="toolbar_document_type">Choose document type</string>
+    <string name="action_pay">Pay</string>
+    <string name="pb_company_name">PB Company</string>
+    <string name="text_summary">Combined:</string>
+    <string name="text_sum">Sum:</string>
+    <string name="toolbar_station_state">Station state</string>
+    <string name="action_check_state">Check state</string>
+    <string name="action_find_date">Check date</string>
+    <string name="text_no_free_dates">No free dates</string>
+    <string name="text_hi">Hi $1%s</string>
+    <string name="guest">Guest</string>
+    <string name="action_admin_panel">Admin panel</string>
+    <string name="action_refuel">Refuel</string>
+    <string name="header_closest_date">Closest booking:</string>
+    <string name="action_book_car_wash">Book car wash</string>
+    <string name="text_company_info">Company information</string>
+    <string name="header_price_per_unit">Price per unit:</string>
+    <string name="header_quantity">Quantity:</string>
+    <string name="header_price">Price:</string>
+    <string name="header_choose_type">Choose type</string>
+    <string name="text_operation_date">Operation date:</string>
+    <string name="text_book_date">Reservation date:</string>
+    <string name="text_date">Date:</string>
+    <string name="text_gas_type">Gas type:</string>
+    <string name="text_points">Points:</string>
+    <string name="text_cost">Cost:</string>
+    <string name="header_point_owned">You have:</string>
+    <string name="action_points_to_rewards">Points to rewards</string>
+    <string name="guest_register_text">You don\'t have access to full version</string>
+    <string name="action_register">Register</string>
+
+    <string name="message_insert_all_data">Insert all data please</string>
+    <string name="message_wrong_input_data">Insert correct data</string>
+    <string name="message_prices_changed_succesfully">Prices changed correctly</string>
+    <string name="message_products_changed_succesfully">Products changed correctly</string>
+    <string name="message_car_wash_type">Choose car wash type</string>
+    <string name="message_company_added">Company added successfully</string>
+    <string name="message_reservation_added_succesfully">Booking added successfully</string>
+    <string name="message_no_data">No data</string>
+    <string name="message_choose_gas_type">Choose gas type</string>
+    <string name="message_to_low_points">No enough points</string>
+    <string name="message_price_added">Reward added successfully</string>
+
+    <string name="title_cctv">CCTV</string>
+    <string name="title_station_state">CCTV</string>
+    <string name="title_gas_prices">CCTV</string>
+    <string name="title_loyalty_program">CCTV</string>
+    <string name="title_car_wash">Car wash</string>
+    <string name="title_pay_card">Card</string>
+    <string name="title_blik_card">Blik</string>
+    <string name="title_transfer_card">Transfer</string>
+    <string name="title_receipt">Receipt</string>
+    <string name="title_invoice">Invoice</string>
+    <string name="title_nagrody">Rewards</string>
+    <string name="title_allocation">Grant</string>
+
+    <string name="message_error_wrong_nav_id">WRONG BOTTOM NAVIGATION ID</string>
 </resources>

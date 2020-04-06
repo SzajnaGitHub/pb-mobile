@@ -29,7 +29,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/r95" />
+            tools:src="@drawable/r95"
+            tools:ignore="ContentDescription" />
 
         <TextView
             style="@style/Text.H1"

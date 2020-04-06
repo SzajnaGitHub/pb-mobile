@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data></data>
+    <data />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
             android:layout_marginTop="28dp"
             android:layout_marginEnd="16dp"
             android:gravity="center"
-            android:text="Nie masz dostępu do pełnej wersji aplikacji"
+            android:text="@string/guest_register_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/background" />
@@ -40,7 +40,7 @@
             android:fontFamily="@font/roboto_bold2"
             android:paddingTop="8sp"
             android:paddingBottom="8dp"
-            android:text="zaloguj"
+            android:text="@string/action_register"
             android:textColor="@color/dark_blue"
             android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="@id/background"

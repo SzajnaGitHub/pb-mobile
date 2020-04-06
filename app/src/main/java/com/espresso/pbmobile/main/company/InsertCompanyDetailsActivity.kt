@@ -43,7 +43,7 @@ class InsertCompanyDetailsActivity : AppCompatActivity() {
         model.apply {
             if (name.isNullOrEmpty() || nip.isNullOrEmpty() || regon.isNullOrEmpty() || address?.city.isNullOrEmpty() ||
                 address?.street.isNullOrEmpty() || address?.country.isNullOrEmpty() || address?.zipCode.isNullOrEmpty()
-            ) Toast.makeText(this@InsertCompanyDetailsActivity, "Proszę wypenij wszystkie dane", Toast.LENGTH_SHORT).show()
+            ) Toast.makeText(this@InsertCompanyDetailsActivity, getText(R.string.message_insert_all_data), Toast.LENGTH_SHORT).show()
             else finishActivity(model)
         }
     }

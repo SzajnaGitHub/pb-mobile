@@ -7,16 +7,44 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_2"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_2_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".main.carwash.ConfirmReservationActivity"
+            android:name=".admin.state.WarningPopupActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent" />
 
+        <activity
+            android:name=".admin.state.OrderProductActivity"
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name=".admin.loyalty.LoyaltyProgramActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".admin.gas.GasPriceActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".admin.state.StationStateActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".admin.cctv.MonitoringActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".admin.AdminConsoleActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".main.carwash.ConfirmReservationActivity"
+            android:theme="@style/Theme.Transparent" />
         <activity android:name=".main.company.InsertCompanyDetailsActivity" />
         <activity
             android:name=".main.payment.PaymentResultActivity"
@@ -25,15 +53,24 @@
             android:name=".main.payment.PayActivity"
             android:theme="@style/Theme.Transparent" />
         <activity android:name=".history.HistoryActivity" />
-        <activity android:name=".auth.AuthActivity" />
-        <activity android:name=".splash.SplashActivity">
+        <activity
+            android:name=".auth.AuthActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".splash.SplashActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main.MainActivity" />
+        <activity
+            android:name=".main.MainActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

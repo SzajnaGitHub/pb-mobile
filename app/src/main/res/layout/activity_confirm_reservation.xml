@@ -4,10 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="androidx.core.content.ContextCompat"/>
+        <import type="android.view.View" />
+        <import type="androidx.core.content.ContextCompat" />
+
         <variable
             name="model"
             type="com.espresso.pbmobile.main.carwash.ConfirmReservationModel" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="Czy na pewno chcesz zarezerwować:"
+            android:text="@string/book_confirmation"
             app:layout_constraintEnd_toEndOf="@+id/background"
             app:layout_constraintHorizontal_bias="0.978"
             app:layout_constraintStart_toStartOf="parent"
@@ -75,18 +82,28 @@
             tools:text="12:30" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/reservation_button"
             style="@style/Text.H2"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_orange_outline_rounded"
-            android:text="Rezerwuj"
+            android:text="@string/action_book"
+            android:enabled="@{loading ? false : true}"
             app:layout_constraintBottom_toBottomOf="@+id/background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView33"
             app:layout_constraintVertical_bias="0.7" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{loading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/background" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

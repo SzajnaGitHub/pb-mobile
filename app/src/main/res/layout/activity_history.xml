@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="model"
             type="com.espresso.pbmobile.history.HistoryActivityViewModel" />
@@ -30,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginBottom="7dp"
-            android:text="Historia"
+            android:text="@string/toolbar_history"
             app:layout_constraintBottom_toBottomOf="@+id/toolbar"
             app:layout_constraintEnd_toStartOf="@+id/toolbar"
             app:layout_constraintHorizontal_bias="0.5"
@@ -44,7 +43,6 @@
             android:src="@drawable/ic_history"
             app:layout_constraintBottom_toBottomOf="@+id/history_header"
             app:layout_constraintEnd_toStartOf="@+id/history_header"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/toolbar"
             app:layout_constraintTop_toTopOf="@+id/history_header" />
 
@@ -53,9 +51,10 @@
             bindingVariableName="@{`model`}"
             items="@{model.items}"
             layoutId="@{model.layoutId}"
+            android:overScrollMode="never"
+            android:scrollbars="none"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:scrollbars="none"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

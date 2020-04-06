@@ -53,7 +53,7 @@
             style="@style/Text.H1.White"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Wybierz sposób płatności"
+            android:text="@string/toolbar_payment_method"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="@+id/payment_type_background"
             app:layout_constraintEnd_toEndOf="@id/payment_type_background"
@@ -97,7 +97,7 @@
             android:gravity="center"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:text="Wybierz rodzaj dowodu tranzakcji"
+            android:text="@string/toolbar_document_type"
             app:layout_constraintBottom_toBottomOf="@+id/document_type_background"
             app:layout_constraintEnd_toEndOf="@id/document_type_background"
             app:layout_constraintStart_toStartOf="@id/document_type_background"
@@ -126,7 +126,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@drawable/btn_pay"
-            android:text="Zapłać"
+            android:text="@string/action_pay"
             app:layout_constraintBottom_toBottomOf="@id/background"
             app:layout_constraintEnd_toEndOf="@id/background"
             app:layout_constraintStart_toStartOf="@id/background"
@@ -140,11 +140,9 @@
             android:visibility="@{loading ? View.VISIBLE : View.GONE }"
             app:layout_constraintBottom_toTopOf="@+id/pay_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/document_type_recycler"
             app:layout_constraintVertical_bias="1.0" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

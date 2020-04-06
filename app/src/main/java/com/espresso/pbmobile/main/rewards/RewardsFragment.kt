@@ -26,32 +26,26 @@ class RewardsFragment : Fragment() {
     private val service = RetrofitClient.getInstance()
     private val disposables = CompositeDisposable()
     private val list = arrayListOf<ItemTabRewardBinding>()
-    private val rewardsPointsList = listOf(
-        RewardsItemModel(1, "Benzyna/on", 100, ::handleRewardsClick),
-        RewardsItemModel(2, "lpg", 50, ::handleRewardsClick),
-        RewardsItemModel(3, "Myjnia", 300, ::handleRewardsClick),
-        RewardsItemModel(4, "Myjnia z woskiem", 400, ::handleRewardsClick)
-    )
-    private val itemPointsList = listOf(
-        RewardsItemModel(1, "Benzyna/on", 2),
-        RewardsItemModel(2, "lpg", 1),
-        RewardsItemModel(3, "Myjnia", 5),
-        RewardsItemModel(4, "Myjnia z woskiem", 10)
-    )
+    private var rewardsPointsList = listOf<RewardsItemModel>()
+    private var itemPointsList = listOf<RewardsItemModel>()
+    private val pointsList = listOf(2, 1, 5, 10)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rewards, container, false)
         store = Store(requireContext())
+        setupRewardsList()
         setupProfile()
         setupRecycler()
         setupTabLayout()
         return binding.root
     }
 
-    private fun setupProfile(fromService: Boolean = false) {
-        ProfileRepository.profile(store.userId, fromService)
+    private fun setupProfile() {
+        ProfileRepository.profile(store.userId, fromService = true)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { binding.loading = true }
+            .doAfterTerminate { binding.loading = false }
             .subscribe {
                 points = it.points
                 binding.points = points
@@ -60,15 +54,39 @@ class RewardsFragment : Fragment() {
     }
 
     private fun setupRecycler() {
-        binding.items = rewardsPointsList
         binding.rewardsRecycler.addItemDecoration(RecyclerMarginDecorator(requireContext()))
     }
+
+    private fun setupRewardsList() {
+        service.getLoyaltyProducts()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { binding.loading = true }
+            .doAfterTerminate { binding.loading = false }
+            .map {
+                it.map { product ->
+                    RewardsItemModel(
+                        id = product.id,
+                        points = product.points,
+                        title = product.product.productName,
+                        clickHandler = ::handleRewardsClick
+                    )
+                }
+            }
+            .subscribe { products ->
+                rewardsPointsList = products
+                itemPointsList = products.mapIndexed { index, model -> model.copy(points = pointsList[index], clickHandler = null) }
+                binding.items = products
+            }
+            .let(disposables::add)
+    }
+
 
     private fun handleRewardsClick(model: RewardsItemModel) {
         if (points > model.points) {
             getReward(model.id)
         } else {
-            Toast.makeText(requireContext(), "Masz za mało puntków", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getText(R.string.message_to_low_points), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -76,19 +94,19 @@ class RewardsFragment : Fragment() {
         service.getReward(store.userId, productId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe{binding.loading = true}
+            .doOnSubscribe { binding.loading = true }
             .doAfterTerminate { binding.loading = false }
             .subscribe {
-                Toast.makeText(requireContext(), "Nagroda dodana pomyślnie", Toast.LENGTH_SHORT).show()
-                setupProfile(fromService = true)
+                Toast.makeText(requireContext(), getText(R.string.message_price_added), Toast.LENGTH_SHORT).show()
+                setupProfile()
             }
             .let(disposables::add)
     }
 
     private fun setupTabLayout() {
         val modelList = listOf(
-            RewardsTabModel(title = "nagrody", isClicked = true),
-            RewardsTabModel(title = "przyznania")
+            RewardsTabModel(title = getString(R.string.title_nagrody), isClicked = true),
+            RewardsTabModel(title = getString(R.string.title_allocation))
         )
 
         (0 until binding.tabLayout.tabCount)
@@ -100,15 +118,12 @@ class RewardsFragment : Fragment() {
                 tab.customView = tabBinding.root
             }
 
-
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(p0: TabLayout.Tab?) {}
             override fun onTabUnselected(p0: TabLayout.Tab?) {}
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.position?.let { handleOnTabClick(it) }
-
             }
-
         })
     }
 

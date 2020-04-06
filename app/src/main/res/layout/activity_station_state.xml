@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="java.util.List" />
+        <import type="com.espresso.data.models.admin.StationStateModel" />
+
+        <variable
+            name="items"
+            type="List&lt;StationStateModel>" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".admin.state.StationStateActivity">
+
+        <View
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/dark_blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/history_header"
+            style="@style/Text.Title.White"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="7dp"
+            android:text="@string/toolbar_station_state"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+            app:layout_constraintEnd_toStartOf="@+id/toolbar"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="4dp"
+            android:src="@drawable/station_lvl"
+            app:layout_constraintBottom_toBottomOf="@+id/history_header"
+            app:layout_constraintEnd_toStartOf="@+id/history_header"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/toolbar"
+            app:layout_constraintTop_toTopOf="@+id/history_header" />
+
+        <TextView
+            android:id="@+id/text_98"
+            style="@style/Text.H1.White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/thumb_blue_seekbar"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/type_98"
+            app:layout_constraintBottom_toTopOf="@+id/seekbar_98"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <SeekBar
+            android:id="@+id/seekbar_98"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:progress="@{items.get(2).percentValue}"
+            android:progressDrawable="@drawable/bg_seekbar_blue"
+            android:thumb="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/seekBar_95"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            tools:progress="50" />
+
+        <TextView
+            style="@style/Text.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{items.get(2).percentValueText}"
+            app:layout_constraintBottom_toBottomOf="@+id/seekbar_98"
+            app:layout_constraintEnd_toEndOf="@+id/seekbar_98"
+            app:layout_constraintStart_toStartOf="@+id/seekbar_98"
+            app:layout_constraintTop_toTopOf="@+id/seekbar_98" />
+
+        <TextView
+            android:id="@+id/text_95"
+            style="@style/Text.H1.White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/thumb_green_seekbar"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/type_95"
+            app:layout_constraintBottom_toTopOf="@+id/seekBar_95"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <SeekBar
+            android:id="@+id/seekBar_95"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:progress="@{items.get(1).percentValue}"
+            android:progressDrawable="@drawable/bg_seekbar_green"
+            android:thumb="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/seekbar_on"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekbar_98"
+            tools:progress="30" />
+
+        <TextView
+            style="@style/Text.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{items.get(1).percentValueText}"
+            app:layout_constraintBottom_toBottomOf="@+id/seekBar_95"
+            app:layout_constraintEnd_toEndOf="@+id/seekBar_95"
+            app:layout_constraintStart_toStartOf="@+id/seekBar_95"
+            app:layout_constraintTop_toTopOf="@+id/seekBar_95" />
+
+        <TextView
+            android:id="@+id/text_on"
+            style="@style/Text.H1.White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/thumb_black_seekbar"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/type_on"
+            app:layout_constraintBottom_toTopOf="@+id/seekbar_on"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <SeekBar
+            android:id="@+id/seekbar_on"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:progress="@{items.get(0).percentValue}"
+            android:progressDrawable="@drawable/bg_seekbar_black"
+            android:thumb="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/seekbar_lpg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekBar_95"
+            tools:progress="30" />
+
+        <TextView
+            style="@style/Text.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{items.get(0).percentValueText}"
+            app:layout_constraintBottom_toBottomOf="@+id/seekbar_on"
+            app:layout_constraintEnd_toEndOf="@+id/seekbar_on"
+            app:layout_constraintStart_toStartOf="@+id/seekbar_on"
+            app:layout_constraintTop_toTopOf="@+id/seekbar_on" />
+
+        <TextView
+            android:id="@+id/text_lpg"
+            style="@style/Text.H1.White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/thumb_yellow_seekbar"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/type_lpg"
+            app:layout_constraintBottom_toTopOf="@+id/seekbar_lpg"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <SeekBar
+            android:id="@+id/seekbar_lpg"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:progress="@{items.get(3).percentValue}"
+            android:progressDrawable="@drawable/bg_seekbar_yellow"
+            android:thumb="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekbar_on"
+            tools:progress="30" />
+
+        <TextView
+            style="@style/Text.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{items.get(3).percentValueText}"
+            app:layout_constraintBottom_toBottomOf="@+id/seekbar_lpg"
+            app:layout_constraintEnd_toEndOf="@+id/seekbar_lpg"
+            app:layout_constraintStart_toStartOf="@+id/seekbar_lpg"
+            app:layout_constraintTop_toTopOf="@+id/seekbar_lpg" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

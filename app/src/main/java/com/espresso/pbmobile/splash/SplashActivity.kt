@@ -16,18 +16,17 @@ import io.reactivex.disposables.CompositeDisposable
 import java.util.concurrent.TimeUnit
 
 class SplashActivity : AppCompatActivity() {
-    private lateinit var store: Store
+    private val store by lazy { Store(this) }
     private val disposables = CompositeDisposable()
     private val binding by lazy(LazyThreadSafetyMode.NONE) { DataBindingUtil.setContentView<ActivitySplashBinding>(this, R.layout.activity_splash) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        store = Store(this)
+        RetrofitClient.initRetrofitClient()
         binding.image.setBackgroundResource(R.drawable.splash_animation_list)
         (binding.image.background as AnimationDrawable).start()
-        RetrofitClient.initRetrofitClient()
 
-        Completable.timer(700, TimeUnit.MILLISECONDS)
+        Completable.timer(TIMER_DELAY, TimeUnit.MILLISECONDS)
             .subscribe {
                 openNextScreen()
             }.let(disposables::add)
@@ -46,5 +45,9 @@ class SplashActivity : AppCompatActivity() {
     override fun onDestroy() {
         disposables.clear()
         super.onDestroy()
+    }
+
+    companion object {
+        private const val TIMER_DELAY = 700L
     }
 }

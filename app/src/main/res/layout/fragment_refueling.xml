@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="android.view.View" />
 
         <variable
@@ -50,7 +49,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/pay_button"
             app:layout_constraintHorizontal_bias="0.534"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/refuel_gun_image"
@@ -60,7 +60,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/car_image"
             app:layout_constraintEnd_toStartOf="@+id/car_image"
             app:layout_constraintHorizontal_bias="0.85"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/refuel_percentage"
@@ -82,7 +83,7 @@
             android:layout_marginEnd="32dp"
             android:background="@drawable/btn_pay"
             android:enabled="@{model.payButtonEnabled ? true : false}"
-            android:text="Zapłać"
+            android:text="@string/action_pay"
             app:layout_constraintBottom_toTopOf="@+id/refuel_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/car_image" />
@@ -95,7 +96,7 @@
             android:layout_marginEnd="32dp"
             android:background="@drawable/btn_refuel"
             android:enabled="@{model.fuelButtonEnabled ? true : false}"
-            android:text="@{model.fueling ? `Stop` : `Tankuj`}"
+            android:text="@{model.fueling ? @string/action_stop : @string/action_refuel}"
             app:layout_constraintBottom_toBottomOf="@id/car_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pay_button" />
@@ -107,7 +108,9 @@
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/ic_history"
-            android:visibility="@{model.historyButtonVisible ? View.VISIBLE : View.GONE}"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="@{model.historyButtonVisible ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toTopOf="@id/pay_button"
             app:layout_constraintEnd_toEndOf="@+id/pay_button"
             app:layout_constraintStart_toStartOf="@+id/pay_button"

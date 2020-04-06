@@ -11,18 +11,23 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.espresso.data.RetrofitClient
 import com.espresso.data.models.carwash.CarWashReservationModel
+import com.espresso.data.store.Store
 import com.espresso.pbmobile.R
 import com.espresso.pbmobile.databinding.FragmentCarWashBinding
 import com.espresso.pbmobile.history.CarWashHistoryItemModel
 import com.espresso.pbmobile.history.HistoryActivity
 import com.espresso.pbmobile.history.HistoryActivityViewModel
+import com.espresso.pbmobile.utlis.DateParser
 import com.espresso.pbmobile.utlis.RecyclerMarginDecorator
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import java.text.DateFormat
 import java.util.*
 
 class CarWashFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private lateinit var binding: FragmentCarWashBinding
+    private val store by lazy { Store(requireContext()) }
     private val service = RetrofitClient.getInstance()
     private val calendar = Calendar.getInstance()
     private var reservationDate: String = ""
@@ -32,40 +37,15 @@ class CarWashFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_car_wash, container, false)
         setupRecycler()
-        setupReservationRecycler()
         setupBindings()
         return binding.root
-    }
-
-    private fun setupReservationRecycler() {
-        binding.reservationItems = listOf(
-            CarWashReservationModel("12:30", ::carWashReservationItemClickHandler),
-            CarWashReservationModel("13:00", ::carWashReservationItemClickHandler),
-            CarWashReservationModel("13:30", ::carWashReservationItemClickHandler),
-            CarWashReservationModel("14:00", ::carWashReservationItemClickHandler),
-            CarWashReservationModel("14:00", ::carWashReservationItemClickHandler),
-            CarWashReservationModel("14:00", ::carWashReservationItemClickHandler),
-            CarWashReservationModel("14:00", ::carWashReservationItemClickHandler),
-            CarWashReservationModel("14:00", ::carWashReservationItemClickHandler),
-            CarWashReservationModel("14:00", ::carWashReservationItemClickHandler),
-            CarWashReservationModel("14:00", ::carWashReservationItemClickHandler),
-            CarWashReservationModel("14:00", ::carWashReservationItemClickHandler),
-            CarWashReservationModel("14:00", ::carWashReservationItemClickHandler),
-            CarWashReservationModel("14:00", ::carWashReservationItemClickHandler),
-            CarWashReservationModel("14:00", ::carWashReservationItemClickHandler),
-            CarWashReservationModel("14:00", ::carWashReservationItemClickHandler),
-            CarWashReservationModel("14:00", ::carWashReservationItemClickHandler),
-            CarWashReservationModel("14:00", ::carWashReservationItemClickHandler),
-            CarWashReservationModel("14:00", ::carWashReservationItemClickHandler),
-            CarWashReservationModel("14:30", ::carWashReservationItemClickHandler)
-        )
     }
 
     private fun carWashReservationItemClickHandler(model: CarWashReservationModel) {
         startActivity(
             ConfirmReservationActivity.createIntent(
                 requireContext(), ConfirmReservationModel(
-                    carWashType = actualCarWashType?.title ?: "Myjnia",
+                    carWashType = actualCarWashType?.title ?: getString(R.string.title_car_wash),
                     date = reservationDate,
                     hour = model.hour
                 )
@@ -75,7 +55,15 @@ class CarWashFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun getReservationList(date: String) {
         reservationDate = date
-        println("TEKST DATE $date")
+        service.getAvailableReservationTerms(date)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { items ->
+                binding.reservationItems = items.map {
+                    CarWashReservationModel(it.date, ::carWashReservationItemClickHandler)
+                }
+            }
+            .let(disposables::add)
     }
 
     private fun setupRecycler() {
@@ -96,7 +84,7 @@ class CarWashFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private fun setupBindings() {
         binding.getDateButton.setOnClickListener {
             if (actualCarWashType != null) createDatePicker()
-            else Toast.makeText(requireContext(), "Wybierz typ myjni", Toast.LENGTH_SHORT).show()
+            else Toast.makeText(requireContext(), getString(R.string.message_car_wash_type), Toast.LENGTH_SHORT).show()
         }
         binding.historyButton.setOnClickListener {
             getHistoryItems()
@@ -104,30 +92,22 @@ class CarWashFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun getHistoryItems() {
-/*            service.getRefuelHistory(store.userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map {
-                    it.reversed().map { model ->
-                        CarWashHistoryItemModel(
-                            date = model.dateRefueling.substring(0, 10),
-                        )
-                    }
+        service.getCarWashHistory(store.userId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                it.reversed().map { model ->
+                    CarWashHistoryItemModel(
+                        bookingDate = DateParser.parse(model.dateofBooking, DateParser.longReversedPattern, DateParser.longPattern),
+                        reservationDate = DateParser.parse(model.dateOfReservation, DateParser.longReversedPattern, DateParser.longPattern),
+                        type = model.type
+                    )
                 }
-                .subscribe { items ->
-                    openHistoryActivity(items)
-                }
-                .let(disposables::add)*/
-
-        openHistoryActivity(
-            listOf(
-                CarWashHistoryItemModel("12.03.2020", "12:30", "Myjnia"),
-                CarWashHistoryItemModel("12.03.2020", "12:30", "Myjnia z woskiem"),
-                CarWashHistoryItemModel("12.03.2020", "12:30", "Myjnia"),
-                CarWashHistoryItemModel("12.03.2020", "12:30", "Myjnia z woskiem")
-            )
-        )
-
+            }
+            .subscribe { items ->
+                openHistoryActivity(items)
+            }
+            .let(disposables::add)
     }
 
     private fun openHistoryActivity(items: List<CarWashHistoryItemModel>) {

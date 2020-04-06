@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
@@ -50,13 +51,13 @@ class PayActivity : AppCompatActivity() {
 
     private fun setupRecycler() {
         binding.paymentItems = listOf(
-            PaymentItemModel(id = 1, title = "karta", image = R.drawable.ic_pay_card, clickHandler = ::paymentItemClickHandler),
-            PaymentItemModel(id = 2, title = "blik", image = R.drawable.ic_pay_blik, clickHandler = ::paymentItemClickHandler),
-            PaymentItemModel(id = 3, title = "przelew", image = R.drawable.ic_pay_transfer, clickHandler = ::paymentItemClickHandler)
+            PaymentItemModel(id = 1, title = getString(R.string.title_pay_card), image = R.drawable.ic_pay_card, clickHandler = ::paymentItemClickHandler),
+            PaymentItemModel(id = 2, title = getString(R.string.title_blik_card), image = R.drawable.ic_pay_blik, clickHandler = ::paymentItemClickHandler),
+            PaymentItemModel(id = 3, title = getString(R.string.title_transfer_card), image = R.drawable.ic_pay_transfer, clickHandler = ::paymentItemClickHandler)
         )
         binding.documentItems = listOf(
-            DocumentItemModel(id = 1, title = "paragon", clickHandler = ::documentItemClickHandler),
-            DocumentItemModel(id = 2, title = "faktura", clickHandler = ::documentItemClickHandler)
+            DocumentItemModel(id = 1, title = getString(R.string.title_receipt), clickHandler = ::documentItemClickHandler),
+            DocumentItemModel(id = 2, title = getString(R.string.title_invoice), clickHandler = ::documentItemClickHandler)
         )
         binding.documentTypeRecycler.apply {
             addItemDecoration(RecyclerMarginDecorator(this@PayActivity))
@@ -107,7 +108,7 @@ class PayActivity : AppCompatActivity() {
             .doOnSubscribe { binding.loading = true }
             .doAfterTerminate { binding.loading = false }
             .subscribe {
-                handlePayment("Paragon")
+                handlePayment(getString(R.string.title_receipt))
             }
             .let(disposables::add)
     }
@@ -129,7 +130,7 @@ class PayActivity : AppCompatActivity() {
             .doOnSubscribe{binding.loading = true}
             .doAfterTerminate { binding.loading = false }
             .subscribe {
-                companyModel.nip?.let { handlePayment("Faktura", nip = it) }
+                companyModel.nip?.let { handlePayment(getString(R.string.title_invoice), nip = it) }
             }
             .let(disposables::add)
     }
@@ -141,30 +142,12 @@ class PayActivity : AppCompatActivity() {
             .doOnSubscribe{binding.loading = true}
             .doAfterTerminate { binding.loading = false }
             .subscribe({ company ->
-                println("TEKST ${store.userId}")
-                println("TEKST COMPANY $company")
                 if (company.nip == null) addUserCompany()
                 else handleInvoice(company)
             }, {
             })
             .let(disposables::add)
     }
-
-/*    private fun handleCompanyError(throwable: Throwable) {
-        val error = throwable as HttpException
-        val jsonResponse = error.response().errorBody()?.string()?.let { JSONObject(it) }
-        when (jsonResponse?.optInt("errorNumber")) {
-            40004 -> {
-                println("TEKST HANDLED ERROR")
-                addUserCompany()
-            }
-            else -> {
-                println("TEKST ${jsonResponse?.optInt("errorNumber")}")
-                println("TEKST THROW")
-                //throw throwable
-            }
-        }
-    }*/
 
     private fun addUserCompany() {
         startActivityForResult(InsertCompanyDetailsActivity.createIntent(this), INSERT_COMPANY_DETAILS_CODE)
@@ -174,10 +157,8 @@ class PayActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == INSERT_COMPANY_DETAILS_CODE && resultCode == Activity.RESULT_OK) {
             val company = data?.getParcelableExtra(RETURN_COMPANY_MODEL) as CompanyModel
-            println("TEKST RETRUN COMPANY $company")
             addCompany(company)
             handleInvoice(company)
-            println("TEKST OK")
         }
     }
 
@@ -186,7 +167,7 @@ class PayActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                println("TEKST ADDED COMPANY")
+                Toast.makeText(this,getText(R.string.message_company_added),Toast.LENGTH_SHORT).show()
             }
             .let(disposables::add)
 
@@ -198,7 +179,7 @@ class PayActivity : AppCompatActivity() {
                 this, ResultModel(
                     title = title,
                     nip = nip,
-                    paymentMethod = actualPaymentItem?.title ?: "Brak danych",
+                    paymentMethod = actualPaymentItem?.title ?: getString(R.string.message_no_data),
                     cost = detailsModel.price,
                     product = detailsModel.product,
                     date = currentDate
