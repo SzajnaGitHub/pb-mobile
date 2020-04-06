@@ -13,16 +13,9 @@ class Store(context: Context) {
         get() = sharedPreferences.getLong(Key.USER_ID.name, LONG_DEFAULT_VALUE)
         set(value) = put(Key.USER_ID, value)
 
-    private fun put(key: Key, value: Boolean) {
-        sharedPreferences.edit().putBoolean(key.name, value).apply()
-    }
 
     private fun put(key: Key, value: String) {
         sharedPreferences.edit().putString(key.name, value)?.apply()
-    }
-
-    private fun put(key: Key, value: Int) {
-        sharedPreferences.edit().putInt(key.name, value)?.apply()
     }
 
     private fun put(key: Key, value: Long) {

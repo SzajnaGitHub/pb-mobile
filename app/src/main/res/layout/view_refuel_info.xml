@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <import type="java.util.List" />
-
         <import type="com.espresso.pbmobile.main.refueling.RefuelItemModel" />
 
         <variable
@@ -82,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="Cena za litr:"
+            android:text="@string/header_price_per_unit"
             app:layout_constraintBottom_toTopOf="@+id/amount_header"
             app:layout_constraintEnd_toStartOf="@+id/view3"
             app:layout_constraintHorizontal_bias="1.0"
@@ -97,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:text="Pojemosc:"
+            android:text="@string/header_quantity"
             android:textAllCaps="true"
             app:layout_constraintBottom_toTopOf="@+id/price_header"
             app:layout_constraintEnd_toStartOf="@+id/view3"
@@ -113,7 +111,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:text="Cena:"
+            android:text="@string/header_price"
             app:layout_constraintBottom_toBottomOf="@+id/view3"
             app:layout_constraintEnd_toStartOf="@+id/view3"
             app:layout_constraintHorizontal_bias="1.0"
@@ -142,7 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:gravity="center"
-            android:text="Wybierz typ"
+            android:text="@string/header_choose_type"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view3" />

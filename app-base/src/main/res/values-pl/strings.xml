@@ -1,9 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">PB Mobile</string>
+    <string name="pb_company_name">PB Company</string>
+    <string name="guest">Gość</string>
+
     <string name="bottom_nav_refuel_title">Tankuj</string>
     <string name="bottom_nav_car_wash_title">Myjnia</string>
     <string name="bottom_nav_dash_title">Panel</string>
     <string name="bottom_nav_rewards_title">Nagrody</string>
     <string name="bottom_nav_info_title">Info</string>
+
+    <string name="type_98">98</string>
+    <string name="type_95">95</string>
+    <string name="type_on">ON</string>
+    <string name="type_lpg">LPG</string>
+
+    <string name="toolbar_history">Historia</string>
+    <string name="toolbar_gas_prices">Ceny paliw</string>
+    <string name="toolbar_owner_panel">Panel Właściciela</string>
+    <string name="toolbar_worker_panel">Panel Pracownika</string>
+    <string name="toolbar_your_points">Twoje punkty:</string>
+    <string name="toolbar_loyalty_program">Program lojanościowy</string>
+    <string name="toolbar_cctv">Monitoring</string>
+    <string name="toolbar_payment_method">Wybierz sposób płatności</string>
+    <string name="toolbar_document_type">Wybierz rodzaj dowodu tranzakcji</string>
+    <string name="toolbar_station_state">Stan stacji</string>
+
+    <string name="action_change">zmień</string>
+    <string name="action_book">Rezerwuj</string>
+    <string name="action_order">Zamów</string>
+    <string name="action_add_company">Dodaj firmę</string>
+    <string name="action_check_state">Sprawdź stan</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_admin_panel">Panel admina</string>
+    <string name="action_pay">Zapłać</string>
+    <string name="action_refuel">tankuj</string>
+    <string name="action_book_car_wash">Zarezerwuj Myjnię</string>
+    <string name="action_find_date">Znajdź termin</string>
+    <string name="action_points_to_rewards">Wymień punkty na nagrody</string>
+    <string name="action_register">Zarejestruj</string>
+
+    <string name="book_confirmation">Czy na pewno chcesz zarezerwować:</string>
+    <string name="confirmation_order_text">Czy na pewno chcesz złożyć zamówienie na:</string>
+
+    <string name="hour_header">Godzina: %1$s</string>
+    <string name="text_hi">Witaj %1$s</string>
+    <string name="points_amount">%1$d P</string>
+    <string name="cost_amount">PLN %1$d</string>
+    <string name="tank_fulfillment_warning">Procent wypełnienia zbiornika: %1$s</string>
+    <string name="warning_percent_value">Wynosi:  %1$s</string>
+    <string name="company_name_header">Firma: %1$s</string>
+    <string name="company_owner_header">Właściciel: %1$s</string>
+    <string name="company_phone_header">Telefon: %1$s</string>
+    <string name="company_nip_header">Nip: %1$s</string>
+    <string name="company_regon_header">Regon: %1$s</string>
+    <string name="company_country_header">Kraj: %1$s</string>
+    <string name="company_city_header">Miasto: %1$s</string>
+    <string name="company_street_header">Ulica: %1$s</string>
+    <string name="company_zip_header">Zip: %1$s</string>
+
+    <string name="text_company_name">Nazwa firmy:</string>
+    <string name="text_nip">Nip:</string>
+    <string name="text_regon">Regon:</string>
+    <string name="text_country">Państwo:</string>
+    <string name="text_city">Miasto:</string>
+    <string name="text_street">Ulica:</string>
+    <string name="text_zip_code">Kod poczt.:</string>
+    <string name="text_summary">Razem:</string>
+    <string name="text_sum">Suma:</string>
+    <string name="text_no_free_dates">Brak wolnych terminów</string>
+    <string name="header_closest_date">Najbliższa rezerwacja:</string>
+    <string name="text_company_info">Informacje o firmie</string>
+    <string name="header_price_per_unit">Cena za litr:</string>
+    <string name="header_quantity">Pojemosc:</string>
+    <string name="header_price">Cena:</string>
+    <string name="header_choose_type">Wybierz typ</string>
+    <string name="text_operation_date">Data operacji:</string>
+    <string name="text_book_date">Data rezerwacji:</string>
+    <string name="text_date">Data:</string>
+    <string name="text_gas_type">Typ paliwa:</string>
+    <string name="text_points">Punkty:</string>
+    <string name="text_cost">Koszt:</string>
+    <string name="header_point_owned">Obecnie posiadasz:</string>
+    <string name="guest_register_text">Nie masz dostępu do pełnej wersji aplikacji</string>
+
+    <string name="message_insert_all_data">Proszę wypenij wszystkie dane</string>
+    <string name="message_wrong_input_data">Wprowadź poprawne dane</string>
+    <string name="message_prices_changed_succesfully">Ceny zmienione pomyślnie</string>
+    <string name="message_products_changed_succesfully">Produkty zmienione pomyślnie</string>
+    <string name="message_company_added">Firma dodana do Twojego konta</string>
+    <string name="message_reservation_added_succesfully">Rezerwacja dodana pomyślnie</string>
+    <string name="message_no_data">Brak danych</string>
+    <string name="message_choose_gas_type">Wybierz typ paliwa</string>
+    <string name="message_to_low_points">Masz za mało puntków</string>
+    <string name="message_price_added">Nagroda dodana pomyślnie</string>
+    <string name="message_error_wrong_nav_id">WRONG BOTTOM NAVIGATION ID</string>
+    <string name="message_car_wash_type">Wybierz typ myjni</string>
+
+    <string name="title_cctv">CCTV</string>
+    <string name="title_station_state">CCTV</string>
+    <string name="title_gas_prices">CCTV</string>
+    <string name="title_loyalty_program">CCTV</string>
+    <string name="title_car_wash">Myjnia</string>
+    <string name="title_pay_card">karta</string>
+    <string name="title_blik_card">blik</string>
+    <string name="title_transfer_card">przelew</string>
+    <string name="title_receipt">Paragon</string>
+    <string name="title_invoice">Faktura</string>
+    <string name="title_nagrody">Nagrody</string>
+    <string name="title_allocation">Przyznania</string>
+
 </resources>

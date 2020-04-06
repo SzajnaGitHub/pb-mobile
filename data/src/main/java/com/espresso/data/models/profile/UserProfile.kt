@@ -18,8 +18,8 @@ data class UserProfile(
         }
 
         private const val TYPE_REGISTERED = "REGISTERED"
-        private const val TYPE_OWNER = "OWNER"
-        private const val TYPE_WORKER = "WORKER"
+        const val TYPE_OWNER = "OWNER"
+        const val TYPE_WORKER = "WORKER"
         const val TYPE_UNREGISTERED = "UNREGISTERED"
     }
 }

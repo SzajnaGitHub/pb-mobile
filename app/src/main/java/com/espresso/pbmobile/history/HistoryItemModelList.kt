@@ -13,8 +13,8 @@ data class RefuelHistoryItemModel(
 ) : Serializable
 
 data class CarWashHistoryItemModel(
-    val date: String,
-    val hour: String,
+    val bookingDate: String,
+    val reservationDate: String,
     val type: String
 ) : Serializable {
 

@@ -9,3 +9,10 @@ data class RefuelHistoryModel(
     val dateRefueling: String,
     val product: RefuelProduct
 )
+
+data class CarWashHistoryModel(
+    val id: Long,
+    val dateofBooking: String,
+    val dateOfReservation: String,
+    val type: String
+)

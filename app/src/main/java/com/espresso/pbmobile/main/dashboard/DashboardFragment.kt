@@ -7,9 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.espresso.data.RetrofitClient
 import com.espresso.data.models.profile.ProfileRepository
+import com.espresso.data.models.profile.UserProfile
 import com.espresso.data.store.Store
 import com.espresso.pbmobile.R
+import com.espresso.pbmobile.admin.AdminConsoleActivity
+import com.espresso.pbmobile.admin.state.WarningPopupActivity
 import com.espresso.pbmobile.auth.AuthActivity
 import com.espresso.pbmobile.databinding.FragmentDashboardBinding
 import com.jakewharton.rxbinding3.view.clicks
@@ -21,7 +25,9 @@ class DashboardFragment : Fragment() {
     private lateinit var binding: FragmentDashboardBinding
     private lateinit var store: Store
     private lateinit var delegate: Delegate
+    private val service = RetrofitClient.getInstance()
     private val disposables = CompositeDisposable()
+    private var canOpenWarning = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -33,17 +39,31 @@ class DashboardFragment : Fragment() {
         store = Store(requireContext())
         setupProfile()
         setupBinding()
+        setupNextAvailableTerm()
+        canOpenWarning = store.userType == UserProfile.TYPE_OWNER
+        if (canOpenWarning) getStationState()
         return binding.root
     }
 
     private fun setupProfile() {
-        ProfileRepository.profile(store.userId)
+        ProfileRepository.profile(store.userId, fromService = true)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { binding.loading = true }
-            .subscribe{
+            .subscribe {
                 binding.model = it
                 binding.loading = false
+            }
+            .let(disposables::add)
+    }
+
+    private fun setupNextAvailableTerm() {
+        service.getNearestReservationTerm()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { binding.loading = true }
+            .subscribe { model ->
+                binding.date = model.date
             }
             .let(disposables::add)
     }
@@ -64,11 +84,32 @@ class DashboardFragment : Fragment() {
         binding.carWashButton.clicks()
             .subscribe { delegate.openCarWashFragment() }
             .let(disposables::add)
+
+        binding.adminButton.clicks()
+            .subscribe { startActivity(AdminConsoleActivity.createIntent(requireContext())) }
+            .let(disposables::add)
     }
 
     override fun onDestroy() {
         disposables.clear()
         super.onDestroy()
+    }
+
+    private fun getStationState() {
+        service.getStationState()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { items ->
+                items.forEach {
+                    if (it.percentValue() <= 10) {
+                        if (canOpenWarning) {
+                            canOpenWarning = false
+                            startActivity(WarningPopupActivity.createIntent(requireContext(), it))
+                        }
+                    }
+                }
+            }
+            .let(disposables::add)
     }
 
     interface Delegate {

@@ -6,6 +6,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 object RetrofitClient {
     private lateinit var backendService: BackendService
+    fun getInstance() = backendService
 
     fun initRetrofitClient() {
         backendService = Retrofit.Builder()
@@ -15,7 +16,4 @@ object RetrofitClient {
             .build()
             .create(BackendService::class.java)
     }
-
-    fun getInstance() = backendService
-
 }

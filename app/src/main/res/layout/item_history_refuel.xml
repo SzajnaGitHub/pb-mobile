@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.espresso.pbmobile.R" />
+
         <variable
             name="model"
             type="com.espresso.pbmobile.history.RefuelHistoryItemModel" />
@@ -65,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Data:"
+            android:text="@string/text_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="2dp"
-            android:text="Typ paliwa:"
+            android:text="@string/text_gas_type"
             app:layout_constraintEnd_toStartOf="@+id/fuel_type"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -85,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Punkty:"
+            android:text="@string/text_points"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -94,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:text="Koszt:"
+            android:text="@string/text_cost"
             app:layout_constraintBottom_toBottomOf="@+id/price"
             app:layout_constraintEnd_toStartOf="@+id/price"
             app:layout_constraintTop_toTopOf="@+id/price" />
@@ -105,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
-            android:text="@{model.points + `P`}"
+            android:text="@{String.format(context.getString(R.string.points_amount),model.points)}"
             app:layout_constraintBottom_toBottomOf="@+id/points_header"
             app:layout_constraintStart_toEndOf="@+id/points_header"
             app:layout_constraintTop_toTopOf="@+id/points_header" />

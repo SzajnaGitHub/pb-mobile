@@ -11,4 +11,3 @@ data class CompanyModel(
     val regon: String?,
     val address: AddressModel?
 ) : Parcelable
-

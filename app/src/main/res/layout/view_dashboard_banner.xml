@@ -4,10 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="com.espresso.pbmobile.R"/>
+
         <variable
             name="points"
             type="Integer" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,20 +33,31 @@
             android:layout_marginStart="16dp"
             app:layout_constraintBottom_toTopOf="@+id/exchange_button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
 
         <TextView
-            style="@style/Text.Title.White"
+            android:id="@+id/textView35"
+            style="@style/Text.H1.White"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:gravity="center"
-            android:text="@{`Obecnie posiadasz: ` + points + `P` }"
-            app:layout_constraintBottom_toBottomOf="@+id/image"
+            android:text="@string/header_point_owned"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image"
             app:layout_constraintTop_toTopOf="@+id/image"
-            tools:text="Obecnie posiadasz: 0p"/>
+            tools:text="Obecnie posiadasz:" />
+
+        <TextView
+            style="@style/Text.H1.White"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{String.format(context.getString(R.string.points_amount),points)}"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="@+id/textView35"
+            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintTop_toBottomOf="@+id/textView35" />
 
         <Button
             android:id="@+id/exchange_button"
@@ -55,7 +67,7 @@
             android:fontFamily="@font/roboto_bold2"
             android:paddingTop="8sp"
             android:paddingBottom="8dp"
-            android:text="Wymień punkty na nagrody"
+            android:text="@string/action_points_to_rewards"
             android:textColor="@color/dark_blue"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@id/background"

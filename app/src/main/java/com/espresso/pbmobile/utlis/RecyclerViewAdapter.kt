@@ -12,8 +12,6 @@ class RecyclerViewAdapter<T>(
     private val bindingVariableId: Int
 ) : RecyclerView.Adapter<RecyclerViewAdapter.BindingViewHolder<ViewDataBinding>>() {
 
-    private var itemList: MutableList<T> = items.toMutableList()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingViewHolder<ViewDataBinding> {
         val inflater = LayoutInflater.from(parent.context)
         val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, layoutId, parent, false)
@@ -25,12 +23,6 @@ class RecyclerViewAdapter<T>(
     override fun onBindViewHolder(holder: BindingViewHolder<ViewDataBinding>, position: Int) {
         val item = items[position]
         holder.binding.setVariable(bindingVariableId, item)
-    }
-
-    fun updateItems(items: List<T>) {
-        itemList.clear()
-        itemList.addAll(items)
-        notifyDataSetChanged()
     }
 
     class BindingViewHolder<out Binding : ViewDataBinding>(val binding: Binding) : RecyclerView.ViewHolder(binding.root)

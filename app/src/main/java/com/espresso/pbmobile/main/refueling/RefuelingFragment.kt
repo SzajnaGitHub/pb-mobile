@@ -20,6 +20,7 @@ import com.espresso.pbmobile.history.RefuelHistoryItemModel
 import com.espresso.pbmobile.main.payment.PayActivity
 import com.espresso.pbmobile.main.refueling.RefuelFragmentViewModel.Companion.REFUEL_MAX_VALUE
 import com.espresso.pbmobile.utlis.AnimationListener
+import com.espresso.pbmobile.utlis.DateParser
 import com.espresso.pbmobile.utlis.RecyclerMarginDecorator
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -107,15 +108,23 @@ class RefuelingFragment : Fragment() {
     }
 
     private fun handleItemClick(model: RefuelItemModel) {
-        if(canChooseFuelType) {
-        canFuel = true
-        updateViewModel {
-            copy(detailsModel = RefuelItemDetailsModel(pricePerUnit = model.pricePerUnit, percentageValue = initialValue, id = model.id, product = model.name), activeItem = model)
+        if (canChooseFuelType) {
+            canFuel = true
+            updateViewModel {
+                copy(
+                    detailsModel = RefuelItemDetailsModel(
+                        pricePerUnit = model.pricePerUnit,
+                        percentageValue = initialValue,
+                        id = model.id,
+                        product = model.name
+                    ), activeItem = model
+                )
+            }
+            binding.distributorView.items?.map { it.copy(isClicked = it.id == model.id) }?.let { items ->
+                (binding.distributorView.refuelRecycler.adapter as RefuelRecyclerAdapter).updateItems(items)
+            }
         }
-        binding.distributorView.items?.map { it.copy(isClicked = it.id == model.id) }?.let { items ->
-            (binding.distributorView.refuelRecycler.adapter as RefuelRecyclerAdapter).updateItems(items)
-        }
-    }}
+    }
 
     private fun updateViewModel(model: RefuelFragmentViewModel.() -> RefuelFragmentViewModel) {
         binding.model?.let(model).let(binding::setModel)
@@ -130,7 +139,7 @@ class RefuelingFragment : Fragment() {
                         stateSubject.onNext(FuelingState.FUELING)
                         fuelPercentageSubject.value?.let { if (it < REFUEL_MAX_VALUE) refuelAnimation() }
                     } else {
-                        Toast.makeText(requireContext(), "Wybierz typ paliwa", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getText(R.string.message_choose_gas_type), Toast.LENGTH_SHORT).show()
                     }
                 }
                 FuelingState.FUELING -> {
@@ -157,7 +166,7 @@ class RefuelingFragment : Fragment() {
             .map {
                 it.reversed().map { model ->
                     RefuelHistoryItemModel(
-                        date = model.dateRefueling.substring(0,10),
+                        date = DateParser.parse(model.dateRefueling, DateParser.extraLongReversedPattern, DateParser.longPattern),
                         cost = BigDecimal(model.product.priceBrutto * model.quantity).setScale(2, RoundingMode.HALF_UP).toDouble(),
                         fuelType = model.product.productName,
                         points = model.points.roundToInt()

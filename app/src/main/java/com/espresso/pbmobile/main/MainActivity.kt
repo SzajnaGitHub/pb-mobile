@@ -16,10 +16,10 @@ import com.espresso.pbmobile.main.info.InfoFragment
 import com.espresso.pbmobile.main.refueling.RefuelingFragment
 import com.espresso.pbmobile.main.rewards.RewardsFragment
 
-class MainActivity : AppCompatActivity(), DashboardFragment.Delegate{
+class MainActivity : AppCompatActivity(), DashboardFragment.Delegate {
     private val binding by lazy(LazyThreadSafetyMode.NONE) { DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main) }
     private lateinit var store: Store
-    private var date = ""
+    private var activeFragmentTag = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,18 +40,27 @@ class MainActivity : AppCompatActivity(), DashboardFragment.Delegate{
             setOnNavigationItemSelectedListener {
                 when (it.itemId) {
                     R.id.refuel -> handleFragmentChange(RefuelingFragment.createInstance(), RefuelingFragment::class.java.name)
-                    R.id.car_wash -> if(isRegistered) handleFragmentChange(CarWashFragment.createInstance(), CarWashFragment::class.java.name) else false
+                    R.id.car_wash -> if (isRegistered) handleFragmentChange(
+                        CarWashFragment.createInstance(),
+                        CarWashFragment::class.java.name
+                    ) else false
                     R.id.dashboard -> handleFragmentChange(DashboardFragment.createInstance(), DashboardFragment::class.java.name)
-                    R.id.rewards -> if(isRegistered) handleFragmentChange(RewardsFragment.createInstance(), RewardsFragment::class.java.name) else false
+                    R.id.rewards -> if (isRegistered) handleFragmentChange(
+                        RewardsFragment.createInstance(),
+                        RewardsFragment::class.java.name
+                    ) else false
                     R.id.info -> handleFragmentChange(InfoFragment.createInstance(), InfoFragment::class.java.name)
-                    else -> throw IllegalArgumentException(ILLEGAL_BOTTOM_ARGUMENT_EXCEPTION_TEXT)
+                    else -> throw IllegalArgumentException(getString(R.string.message_error_wrong_nav_id))
                 }
             }
         }
     }
 
     private fun handleFragmentChange(fragment: Fragment, tag: String): Boolean {
-        supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, fragment, tag).commit()
+        if (activeFragmentTag != tag) {
+            supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, fragment, tag).commit()
+        }
+        activeFragmentTag = tag
         return true
     }
 
@@ -68,7 +77,6 @@ class MainActivity : AppCompatActivity(), DashboardFragment.Delegate{
     }
 
     companion object {
-        private const val ILLEGAL_BOTTOM_ARGUMENT_EXCEPTION_TEXT = "WRONG BOTTOM NAVIGATION ID"
         fun createIntent(context: Context) = Intent(context, MainActivity::class.java)
     }
 }

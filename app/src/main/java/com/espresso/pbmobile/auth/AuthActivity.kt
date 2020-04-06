@@ -60,9 +60,7 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun registerGuest() {
-        println("TEKST REGUSTER")
         registerUser(UserRegisterInfo(uid = UUID.randomUUID().toString()))
-
     }
 
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
@@ -70,7 +68,6 @@ class AuthActivity : AppCompatActivity() {
         auth.signInWithCredential(credential).addOnCompleteListener(this) {
             auth.currentUser?.let {
                 registerUser(UserRegisterInfo(it.uid, it.email ?: "", it.displayName ?: ""))
-                println("TEKST USER REGISTER INFO ${it.uid} ${it.email} ${it.displayName}")
             }
         }
     }
@@ -80,7 +77,6 @@ class AuthActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { user ->
-                println("TEKST USER $user")
                 store.userId = user.id
                 store.userType = UserProfile.resolveType(user.userType) ?: Store.STRING_DEFAULT_VALUE
                 goToNextScreen()

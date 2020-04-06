@@ -5,5 +5,4 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_orange_gradient"
     tools:context=".auth.AuthActivity">
-
 </FrameLayout>
