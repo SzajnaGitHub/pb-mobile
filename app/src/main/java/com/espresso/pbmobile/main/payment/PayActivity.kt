@@ -51,9 +51,24 @@ class PayActivity : AppCompatActivity() {
 
     private fun setupRecycler() {
         binding.paymentItems = listOf(
-            PaymentItemModel(id = 1, title = getString(R.string.title_pay_card), image = R.drawable.ic_pay_card, clickHandler = ::paymentItemClickHandler),
-            PaymentItemModel(id = 2, title = getString(R.string.title_blik_card), image = R.drawable.ic_pay_blik, clickHandler = ::paymentItemClickHandler),
-            PaymentItemModel(id = 3, title = getString(R.string.title_transfer_card), image = R.drawable.ic_pay_transfer, clickHandler = ::paymentItemClickHandler)
+            PaymentItemModel(
+                id = 1,
+                title = getString(R.string.title_pay_card),
+                image = R.drawable.ic_pay_card,
+                clickHandler = ::paymentItemClickHandler
+            ),
+            PaymentItemModel(
+                id = 2,
+                title = getString(R.string.title_blik_card),
+                image = R.drawable.ic_pay_blik,
+                clickHandler = ::paymentItemClickHandler
+            ),
+            PaymentItemModel(
+                id = 3,
+                title = getString(R.string.title_transfer_card),
+                image = R.drawable.ic_pay_transfer,
+                clickHandler = ::paymentItemClickHandler
+            )
         )
         binding.documentItems = listOf(
             DocumentItemModel(id = 1, title = getString(R.string.title_receipt), clickHandler = ::documentItemClickHandler),
@@ -107,9 +122,7 @@ class PayActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { binding.loading = true }
             .doAfterTerminate { binding.loading = false }
-            .subscribe {
-                handlePayment(getString(R.string.title_receipt))
-            }
+            .subscribe { handleReceiptPayment() }
             .let(disposables::add)
     }
 
@@ -127,19 +140,30 @@ class PayActivity : AppCompatActivity() {
         service.payWithInvoice(invoiceModel)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe{binding.loading = true}
+            .doOnSubscribe { binding.loading = true }
             .doAfterTerminate { binding.loading = false }
-            .subscribe {
-                companyModel.nip?.let { handlePayment(getString(R.string.title_invoice), nip = it) }
-            }
+            .subscribe { handleInvoiceResult(companyModel) }
             .let(disposables::add)
+    }
+
+    private fun handleInvoiceResult(model: CompanyModel) {
+        startActivity(InvoiceResultActivity.createIntent(this,model, ResultModel(
+                    title = getString(R.string.title_invoice),
+                    nip = model.nip ?: "",
+                    paymentMethod = actualPaymentItem?.title ?: getString(R.string.message_no_data),
+                    cost = detailsModel.price,
+                    product = detailsModel.product,
+                    date = currentDate
+                )
+            )
+        )
     }
 
     private fun checkUserCompany() {
         service.getUserCompany(store.userId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe{binding.loading = true}
+            .doOnSubscribe { binding.loading = true }
             .doAfterTerminate { binding.loading = false }
             .subscribe({ company ->
                 if (company.nip == null) addUserCompany()
@@ -167,17 +191,16 @@ class PayActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                Toast.makeText(this,getText(R.string.message_company_added),Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getText(R.string.message_company_added), Toast.LENGTH_SHORT).show()
             }
             .let(disposables::add)
 
     }
 
-    private fun handlePayment(title: String, nip: String = "") {
-        startActivity(
-            PaymentResultActivity.createIntent(
+    private fun handleReceiptPayment(nip: String = "") {
+        startActivity(PaymentResultActivity.createIntent(
                 this, ResultModel(
-                    title = title,
+                    title = getString(R.string.title_receipt),
                     nip = nip,
                     paymentMethod = actualPaymentItem?.title ?: getString(R.string.message_no_data),
                     cost = detailsModel.price,

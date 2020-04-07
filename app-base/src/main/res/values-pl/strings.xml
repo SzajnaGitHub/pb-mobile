@@ -40,6 +40,7 @@
     <string name="action_points_to_rewards">Wymień punkty na nagrody</string>
     <string name="action_register">Zarejestruj</string>
 
+    <string name="change_confirmation">Czy na pewno chcesz wymienić:</string>
     <string name="book_confirmation">Czy na pewno chcesz zarezerwować:</string>
     <string name="confirmation_order_text">Czy na pewno chcesz złożyć zamówienie na:</string>
 
@@ -97,10 +98,10 @@
     <string name="message_error_wrong_nav_id">WRONG BOTTOM NAVIGATION ID</string>
     <string name="message_car_wash_type">Wybierz typ myjni</string>
 
-    <string name="title_cctv">CCTV</string>
-    <string name="title_station_state">CCTV</string>
-    <string name="title_gas_prices">CCTV</string>
-    <string name="title_loyalty_program">CCTV</string>
+    <string name="title_cctv">Monitoring</string>
+    <string name="title_station_state">Stan stacji</string>
+    <string name="title_gas_prices">Ceny paliw</string>
+    <string name="title_loyalty_program">Program lojalnościowy</string>
     <string name="title_car_wash">Myjnia</string>
     <string name="title_pay_card">karta</string>
     <string name="title_blik_card">blik</string>
@@ -109,5 +110,7 @@
     <string name="title_invoice">Faktura</string>
     <string name="title_nagrody">Nagrody</string>
     <string name="title_allocation">Przyznania</string>
+    <string name="text_seller">Sprzedawca:</string>
+    <string name="text_buyer">Nabywca:</string>
 
 </resources>

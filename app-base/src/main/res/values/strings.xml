@@ -24,6 +24,7 @@
 
     <string name="book_confirmation">Do you really want to book:</string>
     <string name="confirmation_order_text">Do you really want to place an order:</string>
+    <string name="change_confirmation">Do you really want to change</string>
 
     <string name="hour_header">Hour: %1$s</string>
     <string name="points_amount">%1$d P</string>
@@ -60,7 +61,7 @@
     <string name="action_check_state">Check state</string>
     <string name="action_find_date">Check date</string>
     <string name="text_no_free_dates">No free dates</string>
-    <string name="text_hi">Hi $1%s</string>
+    <string name="text_hi">Hi %1$s</string>
     <string name="guest">Guest</string>
     <string name="action_admin_panel">Admin panel</string>
     <string name="action_refuel">Refuel</string>
@@ -95,9 +96,9 @@
     <string name="message_price_added">Reward added successfully</string>
 
     <string name="title_cctv">CCTV</string>
-    <string name="title_station_state">CCTV</string>
-    <string name="title_gas_prices">CCTV</string>
-    <string name="title_loyalty_program">CCTV</string>
+    <string name="title_station_state">Station state</string>
+    <string name="title_gas_prices">Gas prices</string>
+    <string name="title_loyalty_program">Loyalty Program</string>
     <string name="title_car_wash">Car wash</string>
     <string name="title_pay_card">Card</string>
     <string name="title_blik_card">Blik</string>
@@ -108,4 +109,6 @@
     <string name="title_allocation">Grant</string>
 
     <string name="message_error_wrong_nav_id">WRONG BOTTOM NAVIGATION ID</string>
+    <string name="text_seller">Sprzedawca:</string>
+    <string name="text_buyer">Nabywca:</string>
 </resources>

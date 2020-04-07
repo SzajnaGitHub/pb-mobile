@@ -60,7 +60,7 @@ class RefuelingFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        RefuelProductsRepo.products().map {
+        RefuelProductsRepo.products(fromService = true).map {
             it.filter { product ->
                 product.category == FILTER_PREDICATE
             }.map { product ->

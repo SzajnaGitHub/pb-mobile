@@ -40,12 +40,15 @@ class RewardsFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        setupProfile()
+    }
+
     private fun setupProfile() {
         ProfileRepository.profile(store.userId, fromService = true)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { binding.loading = true }
-            .doAfterTerminate { binding.loading = false }
             .subscribe {
                 points = it.points
                 binding.points = points
@@ -84,23 +87,10 @@ class RewardsFragment : Fragment() {
 
     private fun handleRewardsClick(model: RewardsItemModel) {
         if (points > model.points) {
-            getReward(model.id)
+            startActivity(ConfirmationActivity.createIntent(requireContext(), model.copy(clickHandler = null)))
         } else {
             Toast.makeText(requireContext(), getText(R.string.message_to_low_points), Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun getReward(productId: Long) {
-        service.getReward(store.userId, productId)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { binding.loading = true }
-            .doAfterTerminate { binding.loading = false }
-            .subscribe {
-                Toast.makeText(requireContext(), getText(R.string.message_price_added), Toast.LENGTH_SHORT).show()
-                setupProfile()
-            }
-            .let(disposables::add)
     }
 
     private fun setupTabLayout() {
@@ -126,7 +116,6 @@ class RewardsFragment : Fragment() {
             }
         })
     }
-
 
     private fun handleOnTabClick(position: Int) {
         when (position) {

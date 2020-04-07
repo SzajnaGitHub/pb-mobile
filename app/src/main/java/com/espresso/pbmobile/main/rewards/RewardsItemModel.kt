@@ -3,6 +3,7 @@ package com.espresso.pbmobile.main.rewards
 import android.content.Context
 import androidx.core.content.ContextCompat
 import com.espresso.pbmobile.R
+import java.io.Serializable
 
 typealias RewardItemClickHandler = (RewardsItemModel) -> Unit
 
@@ -11,7 +12,7 @@ data class RewardsItemModel(
     val title: String,
     val points: Int,
     val clickHandler: RewardItemClickHandler? = null
-) {
+) : Serializable {
     fun resolveImage(context: Context) = when (id) {
         PETROL_ID -> ContextCompat.getDrawable(context, R.drawable.ic_rewards_gas)
         LPG_ID -> ContextCompat.getDrawable(context, R.drawable.ic_rewards_lpg)
