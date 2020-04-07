@@ -13,12 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".main.payment.InvoiceResultActivity"></activity>
+        <activity
+            android:name=".main.rewards.ConfirmationActivity"
+            android:theme="@style/Theme.Transparent" />
         <activity
             android:name=".admin.state.WarningPopupActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent" />
-
         <activity
             android:name=".admin.state.OrderProductActivity"
             android:theme="@style/Theme.Transparent" />

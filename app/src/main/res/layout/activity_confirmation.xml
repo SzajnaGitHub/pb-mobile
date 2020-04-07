@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="androidx.core.content.ContextCompat"/>
+        <import type="com.espresso.pbmobile.R" />
+
+        <variable
+            name="model"
+            type="com.espresso.pbmobile.main.rewards.RewardsItemModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        tools:context=".main.payment.PayActivity">
+
+        <View
+            android:id="@id/background"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:background="@drawable/bg_gray_outline"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/Text.H1"
+            android:gravity="center"
+            android:id="@+id/textView42"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/change_confirmation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/background"
+            app:layout_constraintTop_toTopOf="@+id/background" />
+
+        <TextView
+            android:id="@+id/text_points"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{model.points + `puntków za:`}"
+            app:layout_constraintEnd_toEndOf="@+id/textView42"
+            app:layout_constraintStart_toStartOf="@+id/textView42"
+            app:layout_constraintTop_toBottomOf="@+id/textView42" />
+
+        <include
+            android:id="@+id/item_reward_view"
+            layout="@layout/item_reward"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="32dp"
+            bind:model="@{model}"
+            app:layout_constraintEnd_toEndOf="@id/background"
+            app:layout_constraintStart_toStartOf="@id/background"
+            app:layout_constraintTop_toBottomOf="@+id/text_points" />
+
+        <Button
+            android:id="@+id/change_button"
+            android:background="@drawable/btn_orange_outline_rounded"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/action_change"
+            app:layout_constraintEnd_toEndOf="@+id/background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_reward_view" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

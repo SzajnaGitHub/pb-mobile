@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.espresso.pbmobile.R" />
+
+        <variable
+            name="model"
+            type="com.espresso.data.models.company.CompanyModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_company_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:text="@{String.format(context.getString(R.string.company_name_header),model.name)}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Company: Cool Company"/>
+
+        <TextView
+            android:id="@+id/text_company_nip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:text="@{String.format(context.getString(R.string.company_nip_header),model.nip)}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_company_name"
+            tools:text="NIP: 3432543"/>
+
+        <TextView
+            android:id="@+id/text_company_regon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:text="@{String.format(context.getString(R.string.company_regon_header),model.regon)}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_company_nip"
+            tools:text="Regon: 3423545"/>
+
+        <TextView
+            android:id="@+id/text_company_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.format(context.getString(R.string.company_country_header),model.address.country)}"
+            app:layout_constraintBottom_toBottomOf="@+id/text_company_name"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="@+id/text_company_name"
+            tools:text="Country: Poland"/>
+
+        <TextView
+            android:id="@+id/text_company_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@{String.format(context.getString(R.string.company_city_header),model.address.city)}"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/text_company_country"
+            tools:text="City: Cracow"/>
+
+        <TextView
+            android:id="@+id/text_company_street"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@{String.format(context.getString(R.string.company_street_header),model.address.street)}"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/text_company_city"
+            tools:text="Street: Skarżyńskiego 23"/>
+
+        <TextView
+            android:id="@+id/text_company_zip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@{String.format(context.getString(R.string.company_zip_header),model.address.zipCode)}"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/text_company_street"
+            tools:text="Zip: 32-536"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

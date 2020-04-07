@@ -101,12 +101,10 @@ class DashboardFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { items ->
                 items.forEach {
-                    if (it.percentValue() <= 10) {
-                        if (canOpenWarning) {
+                    if (it.productQuantityPercent <= 10.0 && canOpenWarning) {
                             canOpenWarning = false
                             startActivity(WarningPopupActivity.createIntent(requireContext(), it))
                         }
-                    }
                 }
             }
             .let(disposables::add)
