@@ -9,7 +9,9 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.espresso.data.RetrofitClient
+import com.espresso.data.models.history.RefuelHistoryModel
 import com.espresso.data.models.profile.UserProfile
+import com.espresso.data.models.refuel.RefuelProduct
 import com.espresso.data.models.refuel.RefuelProductsRepo
 import com.espresso.data.store.Store
 import com.espresso.pbmobile.R
@@ -59,18 +61,20 @@ class RefuelingFragment : Fragment() {
         canChooseFuelType = true
     }
 
+    fun mapRefuelItemModels(list: List<RefuelProduct>) = list.filter { product ->
+        product.category == FILTER_PREDICATE
+    }.map { product ->
+        RefuelItemModel.create(
+            name = product.productName,
+            value = product.priceBrutto,
+            id = product.id,
+            clickHandler = ::handleItemClick
+        )
+    }
+
     private fun setupViewModel() {
         RefuelProductsRepo.products(fromService = true).map {
-            it.filter { product ->
-                product.category == FILTER_PREDICATE
-            }.map { product ->
-                RefuelItemModel.create(
-                    name = product.productName,
-                    value = product.priceBrutto,
-                    id = product.id,
-                    clickHandler = ::handleItemClick
-                )
-            }
+            mapRefuelItemModels(it)
         }
             .doOnSubscribe { binding.loading = true }
             .doAfterTerminate { binding.loading = false }
@@ -164,19 +168,23 @@ class RefuelingFragment : Fragment() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map {
-                it.reversed().map { model ->
-                    RefuelHistoryItemModel(
-                        date = DateParser.parse(model.dateRefueling, DateParser.extraLongReversedPattern, DateParser.longPattern),
-                        cost = BigDecimal(model.product.priceBrutto * model.quantity).setScale(2, RoundingMode.HALF_UP).toDouble(),
-                        fuelType = model.product.productName,
-                        points = model.points.roundToInt()
-                    )
-                }
+                mapHistoryItems(it)
             }
             .subscribe { items ->
                 openHistoryActivity(items)
             }
             .let(disposables::add)
+    }
+
+    fun mapHistoryItems(list: List<RefuelHistoryModel>): List<RefuelHistoryItemModel> {
+        list.reversed().map { model ->
+            RefuelHistoryItemModel(
+                date = DateParser.parse(model.dateRefueling, DateParser.extraLongReversedPattern, DateParser.longPattern),
+                cost = BigDecimal(model.product.priceBrutto * model.quantity).setScale(2, RoundingMode.HALF_UP).toDouble(),
+                fuelType = model.product.productName,
+                points = model.points.roundToInt()
+            )
+        }
     }
 
     private fun openHistoryActivity(items: List<RefuelHistoryItemModel>) {
