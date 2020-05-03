@@ -30,6 +30,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/admin_console_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".admin.AdminConsoleActivity">
@@ -66,7 +67,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
-            android:id="@+id/include"
+            android:id="@+id/monitoring_button"
             layout="@layout/item_admin_options"
             android:layout_width="150dp"
             android:layout_height="150dp"
@@ -77,7 +78,7 @@
             bind:model="@{cctvModel}" />
 
         <include
-            android:id="@+id/include2"
+            android:id="@+id/station_state_button"
             layout="@layout/item_admin_options"
             android:layout_width="150dp"
             android:layout_height="150dp"
@@ -88,23 +89,25 @@
             bind:model="@{stationStateModel}" />
 
         <include
+            android:id="@+id/station_prices_button"
             layout="@layout/item_admin_options"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="52dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include"
+            app:layout_constraintTop_toBottomOf="@+id/monitoring_button"
             bind:model="@{gasPriceModel}" />
 
         <include
+            android:id="@+id/loyalty_program_button"
             layout="@layout/item_admin_options"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="52dp"
             android:layout_marginEnd="24dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include2"
+            app:layout_constraintTop_toBottomOf="@+id/station_state_button"
             bind:model="@{loyaltyProductsModel}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

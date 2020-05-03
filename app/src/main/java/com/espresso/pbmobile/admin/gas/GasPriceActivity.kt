@@ -53,7 +53,7 @@ class GasPriceActivity : AppCompatActivity() {
     }
 
     private fun updatePrices() {
-        var gasPricesItems = listOf<Double?>()
+        var gasPricesItems: List<Double?>
         try {
             gasPricesItems = listOf(
                 binding.textOn.text.toString().toDoubleOrNull(),
